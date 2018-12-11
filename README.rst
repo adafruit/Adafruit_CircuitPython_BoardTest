@@ -39,8 +39,8 @@ You will need the following components:
 * LED
 * 1x 330 Ohm resistor
 * 2x 4.7k Ohm resistor
-* Microchip 25AA040A SPI EEPROM
-* Microchip AT24HC04B I2C EEPROM
+* `Microchip 25AA040A SPI EEPROM <https://www.digikey.com/product-detail/en/microchip-technology/25AA040A-I-P/25AA040A-I-P-ND/1212469>`_
+* `Microchip AT24HC04B I2C EEPROM <https://www.digikey.com/product-detail/en/microchip-technology/AT24HC04B-PU/AT24HC04B-PU-ND/1886137>`_
 * Breadboard
 * Wires
 
