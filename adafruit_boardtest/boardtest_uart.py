@@ -84,7 +84,7 @@ def run_test(pins, tx_pin=TX_PIN_NAME, rx_pin=RX_PIN_NAME, baud_rate=BAUD_RATE):
         uart = busio.UART(getattr(board, tx_pin),
                           getattr(board, rx_pin),
                           baudrate=baud_rate)
-        uart.reset_input_buffer()
+        uart.reset_input_buffer()   # pylint: disable=no-member
 
         # Generate test string
         test_str = ""
