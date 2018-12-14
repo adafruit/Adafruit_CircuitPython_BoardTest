@@ -29,7 +29,7 @@ CircuitPython board hardware test suite
 
 Implementation Notes
 --------------------
-Run this to test various input/output abilities of a board. Tests the 
+Run this to test various input/output abilities of a board. Tests the
 following:
 
 * Onboard LEDs
@@ -93,8 +93,8 @@ pins_tested = []
 print()
 print("                            ....                                      ")
 print("                        #@@%%%%%%&@@/                                 ")
-print("                     (&@%%%%%%%%%%%%%@&                               ") 
-print("                  .(@&%%%@*    *&%%%%%%@.                             ") 
+print("                     (&@%%%%%%%%%%%%%@&                               ")
+print("                  .(@&%%%@*    *&%%%%%%@.                             ")
 print("            ,@@&&%%%%%%%%//@%,/ /&%%%%%%@                             ")
 print("            %@%%%&%%%%%%%#(@@@&&%%%%%%%%@*                            ")
 print("             @&%%&%%%%%%%%%%%%%%%%%%%%%%@/                            ")
@@ -120,7 +120,7 @@ print("          @%(/#@%######%%%%%%%@%%%%%%%%%%%%%%%%%%%%%(/(###@%%%%%%@%   ")
 print("         .@@#(#@#####(#%%%%%%&@###//#####/#####/(####/#%@&%%%%%%%%&&  ")
 print("        /@%%&@@@(#((((#%%%%%%&@###((#####/#####((##%@@&%%%%%%%%%%%/@. ")
 print("       ,@%%%%%%#####%%%%%%%%@@@@&&&&&&&%&@@@@@@&%%%%%%%%%%%%%%%##@,   ")
-print("       %%%%%%%%@######(%%%%%%%@&%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#/(#&&  ") 
+print("       %%%%%%%%@######(%%%%%%%@&%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#/(#&&  ")
 print("       (@###/(%@##((##(%%%%%%%%@%%%%%%%%%%%%%%%%%%%%%%%%%##%###/(&&   ")
 print("    ,@@%@%##((#%@#######%%%%%%%%@&%%%%##%%%%##%%%%#/#####((####(@*    ")
 print("  *&(,    %@@%##%@#######(%%%%%%%%@#/#####((#####(#####(/#&@&.        ")
@@ -186,11 +186,11 @@ print()
 # Run SPI test
 print("@)}---^-----  SPI TEST  -----^---{(@")
 print()
-result = boardtest_spi.run_test( pins,
-                            mosi_pin=SPI_MOSI_PIN_NAME, 
-                            miso_pin=SPI_MISO_PIN_NAME, 
-                            sck_pin=SPI_SCK_PIN_NAME,
-                            cs_pin=SPI_CS_PIN_NAME)
+result = boardtest_spi.run_test(pins,
+                                mosi_pin=SPI_MOSI_PIN_NAME,
+                                miso_pin=SPI_MISO_PIN_NAME,
+                                sck_pin=SPI_SCK_PIN_NAME,
+                                cs_pin=SPI_CS_PIN_NAME)
 test_results["SPI Test"] = result[0]
 pins_tested.append(result[1])
 print()
