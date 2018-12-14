@@ -9,8 +9,8 @@ Introduction
     :target: https://discord.gg/nBQh6qu
     :alt: Discord
 
-.. image:: https://travis-ci.org/adafruit/Adafruit_CircuitPython_BoardTest.svg?branch=master
-    :target: https://travis-ci.org/adafruit/Adafruit_CircuitPython_BoardTest
+.. image:: https://travis-ci.com/adafruit/Adafruit_CircuitPython_BoardTest.svg?branch=master
+    :target: https://travis-ci.com/adafruit/Adafruit_CircuitPython_BoardTest
     :alt: Build Status
 
 Board test suite for CircuitPython. Run these tests to ensure that a CircuitPython port was created correctly, individual pin mappings are correct, and buses (e.g. SPI) work.
