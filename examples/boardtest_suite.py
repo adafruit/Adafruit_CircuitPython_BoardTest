@@ -65,12 +65,12 @@ the various tests.
 
 import board
 
-import boardtest_led
-import boardtest_gpio
-import boardtest_voltage_monitor
-import boardtest_uart
-import boardtest_spi
-import boardtest_i2c
+from adafruit_boardtest import boardtest_led
+from adafruit_boardtest import boardtest_gpio
+from adafruit_boardtest import boardtest_voltage_monitor
+from adafruit_boardtest import boardtest_uart
+from adafruit_boardtest import boardtest_spi
+from adafruit_boardtest import boardtest_i2c
 
 # Constants
 UART_TX_PIN_NAME = 'TX'

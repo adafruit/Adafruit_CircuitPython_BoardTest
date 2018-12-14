@@ -1,23 +1,23 @@
-.. automodule:: boardtest_gpio
+.. automodule:: adafruit_boardtest.boardtest_gpio
    :members:
 
-.. automodule:: boardtest_i2c
+.. automodule:: adafruit_boardtest.boardtest_i2c
    :members:
 
-.. automodule:: boardtest_led
+.. automodule:: adafruit_boardtest.boardtest_led
    :members:
 
-.. automodule:: boardtest_sd
+.. automodule:: adafruit_boardtest.boardtest_sd
    :members:
 
-.. automodule:: boardtest_sd_cd
+.. automodule:: adafruit_boardtest.boardtest_sd_cd
    :members:
 
-.. automodule:: boardtest_spi
+.. automodule:: adafruit_boardtest.boardtest_spi
    :members:
 
-.. automodule:: boardtest_uart
+.. automodule:: adafruit_boardtest.boardtest_uart
    :members:
 
-.. automodule:: boardtest_voltage_monitor
+.. automodule:: adafruit_boardtest.boardtest_voltage_monitor
    :members:

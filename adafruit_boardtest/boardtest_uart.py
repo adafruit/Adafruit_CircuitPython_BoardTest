@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-`UART Test`
+`adafruit_boardtest.boardtest_uart`
 ====================================================
 Performs random writes and reads across UART. Connect a wire from TX pin to RX pin.
 

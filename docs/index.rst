@@ -23,14 +23,13 @@ Table of Contents
 .. toctree::
     :caption: Tutorials
 
-.. todo:: Add any Learn guide links here. If there are none, then simply delete this todo and leave
-    the toctree above for use later.
+    Installing CircuitPython on SAMD21 Boards <https://learn.adafruit.com/installing-circuitpython-on-samd21-boards>
 
 .. toctree::
     :caption: Related Products
 
-.. todo:: Add any product links here. If there are none, then simply delete this todo and leave
-    the toctree above for use later.
+    Adafruit Feather M0 Basic Proto <https://www.adafruit.com/product/2772>
+    Arduino MKR Zero <https://store.arduino.cc/arduino-mkrzero>
 
 .. toctree::
     :caption: Other Links

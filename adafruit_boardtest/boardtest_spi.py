@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-`SPI Test`
+`adafruit_boardtest.boardtest_spi`
 ====================================================
 Performs random writes and reads to SPI EEPROM.
 

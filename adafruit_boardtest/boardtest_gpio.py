@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-`GPIO Test`
+`adafruit_boardtest.boardtest_gpio`
 ====================================================
 Toggles all available GPIO on a board. Verify their operation with an LED,
 multimeter, another microcontroller, etc.

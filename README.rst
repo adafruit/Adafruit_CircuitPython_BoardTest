@@ -17,7 +17,7 @@ Board test suite for CircuitPython. Run these tests to ensure that a CircuitPyth
 
 Tests can be run individually. Copy code found in each *boardtest_<name>.py* module to your CIRCUITPYTHON device drive, and rename the file *code.py*.
 
-Alternatively, tests can be imported as modules. Copy the desired test file to CIRCUITPYTHON device drive and import the test in your own code. Each test can be run with the `run_test(pins)` function.
+Alternatively, tests can be imported as modules. Copy the desired test file to CIRCUITPYTHON device drive and import the test in your own code. Each test can be run with the ``run_test(pins)`` function.
 
 The *boardtest_suite.py* (in *examples/*) shows how to call tests from within a script. *boardtest_suite.py* runs the following tests:
 
@@ -56,10 +56,10 @@ You will need the following components:
 
 Connect the components as shown to your board. Note that you can use a 220 Ohm or 330 Ohm resistor for the LED.
 
-.. image:: docs/test_jig.png
+.. image:: https://github.com/adafruit/Adafruit_CircuitPython_BoardTest/blob/master/docs/test_jig.png
     :alt: Test jig Fritzing diagram
 
-To use each test, import the library, find the pins available on your board, and call `boardtest_<test name>.run_test(pins)`. To run the GPIO test, for example:
+To use each test, import the library, find the pins available on your board, and call ``boardtest_<test name>.run_test(pins)``. To run the GPIO test, for example:
 
 .. code:: python
 

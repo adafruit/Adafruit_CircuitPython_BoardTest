@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-`LED Test`
+`adafruit_boardtest.boardtest_led`
 ====================================================
 Toggles all available onboard LEDs. You will need to manually verify their
 operation by watching them.

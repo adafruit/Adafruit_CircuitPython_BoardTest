@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-`SD CD Test`
+`adafruit_boardtest.boardtest_sd_cd`
 ====================================================
 Reports the output of an SD card's chip detect (CD) pin.
 

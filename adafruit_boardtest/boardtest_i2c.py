@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-`I2C Test`
+`adafruit_boardtest.boardtest_i2c`
 ====================================================
 Performs random writes and reads to I2C EEPROM.
 

@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-`Voltage Monitor Test`
+`adafruit_boardtest.boardtest_voltage_monitor`
 ====================================================
 Prints out the measured voltage on any onboard voltage/battery monitor pins.
 Note that some boards have an onboard voltage divider to decrease the voltage
