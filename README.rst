@@ -59,18 +59,18 @@ Connect the components as shown to your board. Note that you can use a 220 Ohm o
 .. image:: https://github.com/adafruit/Adafruit_CircuitPython_BoardTest/blob/master/docs/test_jig.png
     :alt: Test jig Fritzing diagram
 
-To use each test, import the library, find the pins available on your board, and call ``boardtest_<test name>.run_test(pins)``. To run the GPIO test, for example:
+To use each test, copy the individual .py or .mpy test(s) into a folder named adafruit_boardtest in the CIRCUITPY drive, import the library, find the pins available on your board, and call ``boardtest_<test name>.run_test(pins)``. To run the GPIO test, for example:
 
 .. code:: python
 
     import board
-    import boardtest_gpio
+    from adafruit_boardtest import boardtest_gpio
 
     # List out all the pins available to us
     pins = [p for p in dir(board)]
     print()
     print("All pins found:", end=' ')
-    
+
     # Print pins
     for p in pins:
         print(p, end=' ')

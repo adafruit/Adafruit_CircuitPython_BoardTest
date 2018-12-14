@@ -49,8 +49,9 @@ You will need the following components:
 * Breadboard
 * Wires
 
-Copy the following files to the /lib folder on your CIRCUITPY drive:
+Copy the following files to the adafruit_boardtest folder on your CIRCUITPY drive:
 
+* __init__.py
 * boardtest_gpio.mpy
 * boardtest_i2c.mpy
 * boardtest_led.mpy
@@ -84,10 +85,10 @@ I2C_SDA_PIN_NAME = 'SDA'
 I2C_SCL_PIN_NAME = 'SCL'
 
 # Results dictionary
-test_results = {}
+TEST_RESULTS = {}
 
 # Save tested pins
-pins_tested = []
+PINS_TESTED = []
 
 # Print welcome message
 print()
@@ -135,76 +136,76 @@ print("**********************************************************************")
 print()
 
 # List out all the pins available to us
-pins = [p for p in dir(board)]
+PINS = [p for p in dir(board)]
 print("All pins found:", end=' ')
 
 # Print pins
-for p in pins:
-    print(p, end=' ')
+for pin in PINS:
+    print(pin, end=' ')
 print('\n')
 
 # Run LED test
 print("@)}---^-----  LED TEST  -----^---{(@")
 print()
-result = boardtest_led.run_test(pins)
-test_results["LED Test"] = result[0]
-pins_tested.append(result[1])
+RESULT = boardtest_led.run_test(PINS)
+TEST_RESULTS["LED Test"] = RESULT[0]
+PINS_TESTED.append(RESULT[1])
 print()
-print(result[0])
+print(RESULT[0])
 print()
 
 # Run GPIO test
 print("@)}---^-----  GPIO TEST  -----^---{(@")
 print()
-result = boardtest_gpio.run_test(pins)
-test_results["GPIO Test"] = result[0]
-pins_tested.append(result[1])
+RESULT = boardtest_gpio.run_test(PINS)
+TEST_RESULTS["GPIO Test"] = RESULT[0]
+PINS_TESTED.append(RESULT[1])
 print()
-print(result[0])
+print(RESULT[0])
 print()
 
 # Run voltage monitor test
 print("@)}---^-----  VOLTAGE MONITOR TEST  -----^---{(@")
 print()
-result = boardtest_voltage_monitor.run_test(pins)
-test_results["Voltage Monitor Test"] = result[0]
-pins_tested.append(result[1])
+RESULT = boardtest_voltage_monitor.run_test(PINS)
+TEST_RESULTS["Voltage Monitor Test"] = RESULT[0]
+PINS_TESTED.append(RESULT[1])
 print()
-print(result[0])
+print(RESULT[0])
 print()
 
 # Run UART test
 print("@)}---^-----  UART TEST  -----^---{(@")
 print()
-result = boardtest_uart.run_test(pins, UART_TX_PIN_NAME, UART_RX_PIN_NAME, UART_BAUD_RATE)
-test_results["UART Test"] = result[0]
-pins_tested.append(result[1])
+RESULT = boardtest_uart.run_test(PINS, UART_TX_PIN_NAME, UART_RX_PIN_NAME, UART_BAUD_RATE)
+TEST_RESULTS["UART Test"] = RESULT[0]
+PINS_TESTED.append(RESULT[1])
 print()
-print(result[0])
+print(RESULT[0])
 print()
 
 # Run SPI test
 print("@)}---^-----  SPI TEST  -----^---{(@")
 print()
-result = boardtest_spi.run_test(pins,
+RESULT = boardtest_spi.run_test(PINS,
                                 mosi_pin=SPI_MOSI_PIN_NAME,
                                 miso_pin=SPI_MISO_PIN_NAME,
                                 sck_pin=SPI_SCK_PIN_NAME,
                                 cs_pin=SPI_CS_PIN_NAME)
-test_results["SPI Test"] = result[0]
-pins_tested.append(result[1])
+TEST_RESULTS["SPI Test"] = RESULT[0]
+PINS_TESTED.append(RESULT[1])
 print()
-print(result[0])
+print(RESULT[0])
 print()
 
 # Run I2C test
 print("@)}---^-----  I2C TEST  -----^---{(@")
 print()
-result = boardtest_i2c.run_test(pins, sda_pin=I2C_SDA_PIN_NAME, scl_pin=I2C_SCL_PIN_NAME)
-test_results["I2C Test"] = result[0]
-pins_tested.append(result[1])
+RESULT = boardtest_i2c.run_test(PINS, sda_pin=I2C_SDA_PIN_NAME, scl_pin=I2C_SCL_PIN_NAME)
+TEST_RESULTS["I2C Test"] = RESULT[0]
+PINS_TESTED.append(RESULT[1])
 print()
-print(result[0])
+print(RESULT[0])
 print()
 
 # Print out test results
@@ -212,34 +213,34 @@ print("@)}---^-----  TEST RESULTS  -----^---{(@")
 print()
 
 # Find appropriate spaces for printing test results
-num_spaces = 0
-for key in test_results:
-    if len(key) > num_spaces:
-        num_spaces = len(key)
+NUM_SPACES = 0
+for key in TEST_RESULTS:
+    if len(key) > NUM_SPACES:
+        NUM_SPACES = len(key)
 
 # Print test results
-for key in test_results:
+for key in TEST_RESULTS:
     print(key + ":", end=' ')
-    for i in range(num_spaces - len(key)):
+    for i in range(NUM_SPACES - len(key)):
         print(end=' ')
-    print(test_results[key])
+    print(TEST_RESULTS[key])
 print()
 
 # Figure out which pins were tested and not tested
-tested = []
-for sublist in pins_tested:
-    for p in sublist:
-        tested.append(p)
-not_tested = list(set(pins).difference(set(tested)))
+TESTED = []
+for sublist in PINS_TESTED:
+    for pin in sublist:
+        TESTED.append(pin)
+NOT_TESTED = list(set(PINS).difference(set(TESTED)))
 
 # Print tested pins
 print("The following pins were tested:", end=' ')
-for p in tested:
-    print(p, end=' ')
+for pin in TESTED:
+    print(pin, end=' ')
 print('\n')
 
 # Print pins not tested
 print("The following pins were NOT tested:", end=' ')
-for p in not_tested:
-    print(p, end=' ')
+for pin in NOT_TESTED:
+    print(pin, end=' ')
 print('\n')

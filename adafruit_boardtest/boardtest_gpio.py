@@ -25,7 +25,7 @@
 Toggles all available GPIO on a board. Verify their operation with an LED,
 multimeter, another microcontroller, etc.
 
-Run this script as its own main.py to individually run the test, or compile 
+Run this script as its own main.py to individually run the test, or compile
 with mpy-cross and call from separate test script.
 
 * Author(s): Shawn Hymel for Adafruit Industries
@@ -40,10 +40,11 @@ Implementation Notes
 
 """
 
+import time
+
 import board
 import digitalio
 import supervisor
-import time
 
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
@@ -59,9 +60,9 @@ FAIL = "FAIL"
 NA = "N/A"
 
 # Determine if given value is a number
-def _is_number(s):
+def _is_number(val):
     try:
-        float(s)
+        float(val)
         return True
     except ValueError:
         return False
@@ -73,9 +74,7 @@ def _deinit_pins(gpios):
 
 # Toggle IO pins while waiting for answer
 def _toggle_wait(gpios):
-    
-    global test_results
-    
+
     timestamp = time.monotonic()
     led_state = False
     print("Are the pins listed above toggling? [y/n]")
@@ -92,21 +91,17 @@ def _toggle_wait(gpios):
             gpio.value = led_state
         if supervisor.runtime.serial_bytes_available:
             answer = input()
-            if answer == 'y':
-                return True
-            else:
-                return False
-                break
+            return bool(answer == 'y')
 
 def run_test(pins):
 
     """
     Toggles all available GPIO on and off repeatedly.
-    
+
     :param list[str] pins: list of pins to run the test on
     :return: tuple(str, list[str]): test result followed by list of pins tested
     """
-    
+
     # Create a list of analog GPIO pins
     analog_pins = [p for p in pins if p[0] == 'A' and _is_number(p[1])]
 
@@ -116,14 +111,14 @@ def run_test(pins):
     # Toggle LEDs if we find any
     gpio_pins = analog_pins + digital_pins
     if gpio_pins:
-        
+
         # Create a list of IO objects for us to toggle
         gpios = [digitalio.DigitalInOut(getattr(board, p)) for p in gpio_pins]
 
         # Print out the LEDs found
         print("GPIO pins found:", end=' ')
-        for p in gpio_pins:
-            print(p, end=' ')
+        for pin in gpio_pins:
+            print(pin, end=' ')
         print('\n')
 
         # Set all IO to output
@@ -132,29 +127,29 @@ def run_test(pins):
 
         # Toggle pins while waiting for user to verify LEDs blinking
         result = _toggle_wait(gpios)
-        
+
         # Release pins
         _deinit_pins(gpios)
-        
+
         if result:
             return PASS, gpio_pins
-        else:
-            return FAIL, gpio_pins
-    
-    else:
-        print("No GPIO pins found")
-        return NA, []
+
+        return FAIL, gpio_pins
+
+    # Else (no pins found)
+    print("No GPIO pins found")
+    return NA, []
 
 def _main():
-    
+
     # List out all the pins available to us
     pins = [p for p in dir(board)]
     print()
     print("All pins found:", end=' ')
-    
+
     # Print pins
-    for p in pins:
-        print(p, end=' ')
+    for pin in pins:
+        print(pin, end=' ')
     print('\n')
 
     # Run test
