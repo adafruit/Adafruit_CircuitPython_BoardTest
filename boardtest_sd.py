@@ -20,23 +20,31 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-`sd_test`
+`SD Test`
 ====================================================
-SD Test Module
-
-* Author(s): Shawn Hymel
-* Date: December 8, 2018
-
-Implementation Notes
---------------------
 Performs random writes and reads to SD card over SPI.
-
-Requires SD card.
-
-Requires adafruit_sdcard.mpy and adafruit_bus_device modules.
 
 Run this script as its own main.py to individually run the test, or compile 
 with mpy-cross and call from separate test script.
+
+* Author(s): Shawn Hymel for Adafruit Industries
+
+Implementation Notes
+--------------------
+
+**Hardware:**
+
+* `SD Card <https://www.adafruit.com/product/1294>`_
+
+**Software and Dependencies:**
+
+* Adafruit CircuitPython firmware for the supported boards:
+  https://github.com/adafruit/circuitpython/releases
+* Adafruit's Bus Device library: 
+  https://github.com/adafruit/Adafruit_CircuitPython_BusDevice
+* Adafruit CircuitPython SD card driver: 
+  https://github.com/adafruit/Adafruit_CircuitPython_SD
+
 """
 
 import adafruit_sdcard
@@ -45,6 +53,9 @@ import busio
 import digitalio
 import storage
 import random
+
+__version__ = "0.0.0-auto.0"
+__repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
 
 # Constants
 MOSI_PIN_NAME = 'SD_MOSI'
@@ -68,6 +79,18 @@ def run_test(   pins,
                 sck_pin=SCK_PIN_NAME,
                 cs_pin=CS_PIN_NAME,
                 filename=FILENAME):
+    
+    """
+    Performs random writes and reads to file on attached SD card.
+    
+    :param list[str] pins: list of pins to run the test on
+    :param str mosi_pin: pin name of SPI MOSI
+    :param str miso_pin: pin name of SPI MISO
+    :param str sck_pin: pin name of SPI SCK
+    :param str cs_pin: pin name of SPI CS
+    :param str filename: name of file to use as test on SD card
+    :return: tuple(str, list[str]): test result followed by list of pins tested
+    """
                 
     # Write characters to file on SD card and verify they were written
     if list(set(pins).intersection(set([mosi_pin, miso_pin, sck_pin]))):
@@ -87,8 +110,8 @@ def run_test(   pins,
         
         # Set up SPI
         spi = busio.SPI(getattr(board, sck_pin), 
-						MOSI=getattr(board, mosi_pin), 
-						MISO=getattr(board, miso_pin))
+                        MOSI=getattr(board, mosi_pin), 
+                        MISO=getattr(board, miso_pin))
         
         # Try to connect to the card and mount the filesystem
         try:

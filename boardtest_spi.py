@@ -20,21 +20,29 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-`spi_test`
+`SPI Test`
 ====================================================
-SPI Test Module
-
-* Author(s): Shawn Hymel
-* Date: December 8, 2018
-
-Implementation Notes
---------------------
 Performs random writes and reads to SPI EEPROM.
-
-Requires Microchip 25AA040A SPI EEPROM.
 
 Run this script as its own main.py to individually run the test, or compile 
 with mpy-cross and call from separate test script.
+
+* Author(s): Shawn Hymel for Adafruit Industries
+
+Implementation Notes
+--------------------
+
+**Hardware:**
+
+* `Microchip 25AA040A SPI EEPROM <https://www.digikey.com/product-detail/en/microchip-technology/25AA040A-I-P/25AA040A-I-P-ND/1212469>`_
+
+**Software and Dependencies:**
+
+* Adafruit CircuitPython firmware for the supported boards:
+  https://github.com/adafruit/circuitpython/releases
+* Adafruit's Bus Device library: 
+  https://github.com/adafruit/Adafruit_CircuitPython_BusDevice
+
 """
 
 import board
@@ -42,6 +50,9 @@ import digitalio
 import busio
 import random
 import time
+
+__version__ = "0.0.0-auto.0"
+__repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
 
 # Constants
 MOSI_PIN_NAME = 'MOSI'
@@ -140,6 +151,17 @@ def run_test(   pins,
                 sck_pin=SCK_PIN_NAME,
                 cs_pin=CS_PIN_NAME):
     
+    """
+    Performs random writes and reads to file on attached SD card.
+    
+    :param list[str] pins: list of pins to run the test on
+    :param str mosi_pin: pin name of SPI MOSI
+    :param str miso_pin: pin name of SPI MISO
+    :param str sck_pin: pin name of SPI SCK
+    :param str cs_pin: pin name of SPI CS
+    :return: tuple(str, list[str]): test result followed by list of pins tested
+    """
+    
     # Write values to SPI EEPROM and verify the values match
     if list(set(pins).intersection(set([mosi_pin, miso_pin, sck_pin]))):
 
@@ -156,8 +178,8 @@ def run_test(   pins,
 
         # Set up SPI
         spi = busio.SPI(getattr(board, sck_pin), 
-						MOSI=getattr(board, mosi_pin), 
-						MISO=getattr(board, miso_pin))
+                        MOSI=getattr(board, mosi_pin), 
+                        MISO=getattr(board, miso_pin))
 
         # Wait for SPI lock
         while not spi.try_lock():

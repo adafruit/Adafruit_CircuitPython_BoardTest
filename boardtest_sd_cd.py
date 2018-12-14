@@ -20,25 +20,34 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-`sd_cd_test`
+`SD CD Test`
 ====================================================
-SD CD Test Module
-
-* Author(s): Shawn Hymel
-* Date: December 8, 2018
-
-Implementation Notes
---------------------
 Reports the output of an SD card's chip detect (CD) pin.
-
-Requires SD card.
 
 Run this script as its own main.py to individually run the test, or compile 
 with mpy-cross and call from separate test script.
+
+* Author(s): Shawn Hymel for Adafruit Industries
+
+Implementation Notes
+--------------------
+
+**Hardware:**
+
+* `SD Card <https://www.adafruit.com/product/1294>`_
+
+**Software and Dependencies:**
+
+* Adafruit CircuitPython firmware for the supported boards:
+  https://github.com/adafruit/circuitpython/releases
+
 """
 
 import board
 import digitalio
+
+__version__ = "0.0.0-auto.0"
+__repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
 
 # Constants
 SD_CD_PIN_NAME = 'SD_CD'
@@ -49,6 +58,14 @@ FAIL = "FAIL"
 NA = "N/A"
 
 def run_test(pins, cd_pin=SD_CD_PIN_NAME):
+    
+    """
+    Checks status of CD pin as user inserts and removes SD card.
+    
+    :param list[str] pins: list of pins to run the test on
+    :param str cd_pin: pin name of chip detect (CD) line
+    :return: tuple(str, list[str]): test result followed by list of pins tested
+    """
     
     # Ask user to insert and remove SD card
     if list(set(pins).intersection(set([cd_pin]))):

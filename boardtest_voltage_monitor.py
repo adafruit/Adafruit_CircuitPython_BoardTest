@@ -20,27 +20,36 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-`voltage_monitor_test`
+`Voltage Monitor Test`
 ====================================================
-Voltage Monitor Test Module
-
-* Author(s): Shawn Hymel
-* Date: December 8, 2018
-
-Implementation Notes
---------------------
 Prints out the measured voltage on any onboard voltage/battery monitor pins.
-Note that these pins sometimes have an onboard voltage divider to decrease
-the voltage.
-
-Requires multimeter
+Note that some boards have an onboard voltage divider to decrease the voltage
+to these pins.
 
 Run this script as its own main.py to individually run the test, or compile 
 with mpy-cross and call from separate test script.
+
+* Author(s): Shawn Hymel for Adafruit Industries
+
+Implementation Notes
+--------------------
+
+**Hardware:**
+
+* `Multimeter <https://www.adafruit.com/product/2034>`_
+
+**Software and Dependencies:**
+
+* Adafruit CircuitPython firmware for the supported boards:
+  https://github.com/adafruit/circuitpython/releases
+
 """
 
 import board
 import analogio
+
+__version__ = "0.0.0-auto.0"
+__repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
 
 # Constants
 VOLTAGE_MONITOR_PIN_NAMES = ['VOLTAGE_MONITOR', 'BATTERY']
@@ -53,6 +62,13 @@ FAIL = "FAIL"
 NA = "N/A"
 
 def run_test(pins):
+    
+    """
+    Prints out voltage on the battery monitor or voltage monitor pin.
+    
+    :param list[str] pins: list of pins to run the test on
+    :return: tuple(str, list[str]): test result followed by list of pins tested
+    """
     
     # Look for pins with battery monitoring names
     monitor_pins = list(set(pins).intersection(set(VOLTAGE_MONITOR_PIN_NAMES)))

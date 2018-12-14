@@ -20,27 +20,36 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-`i2c_test`
+`I2C Test`
 ====================================================
-I2C Test Module
-
-* Author(s): Shawn Hymel
-* Date: December 8, 2018
-
-Implementation Notes
---------------------
 Performs random writes and reads to I2C EEPROM.
-
-Requires Microchip AT24HC04B I2C EEPROM.
 
 Run this script as its own main.py to individually run the test, or compile 
 with mpy-cross and call from separate test script.
+
+* Author(s): Shawn Hymel for Adafruit Industries
+
+Implementation Notes
+--------------------
+
+**Hardware:**
+
+* `Microchip AT24HC04B I2C EEPROM <https://www.digikey.com/product-detail/en/microchip-technology/AT24HC04B-PU/AT24HC04B-PU-ND/1886137>`_
+
+**Software and Dependencies:**
+
+* Adafruit CircuitPython firmware for the supported boards:
+  https://github.com/adafruit/circuitpython/releases
+
 """
 
 import board
 import busio
 import random
 import time
+
+__version__ = "0.0.0-auto.0"
+__repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
 
 # Constants
 SDA_PIN_NAME = 'SDA'
@@ -98,8 +107,8 @@ def _eeprom_i2c_read_byte(i2c, i2c_addr, mem_addr, timeout = 1.0):
    
     # Try writing to address (EEPROM is unresponsive while writing)
     if _eeprom_i2c_wait(i2c, i2c_addr, mem_addr, timeout) == False:
-		return False, bytearray()
-	 
+        return False, bytearray()
+     
     # Finish the read
     buf = bytearray(1)
     i2c.readfrom_into(i2c_addr, buf)
@@ -108,65 +117,74 @@ def _eeprom_i2c_read_byte(i2c, i2c_addr, mem_addr, timeout = 1.0):
 
 def run_test(pins, sda_pin=SDA_PIN_NAME, scl_pin=SCL_PIN_NAME):
     
-	# Write values to I2C EEPROM and verify the values match
-	if list(set(pins).intersection(set([sda_pin, scl_pin]))):
+    """
+    Performs random writes and reads to I2C EEPROM.
+    
+    :param list[str] pins: list of pins to run the test on
+    :param str sda_pin: pin name of I2C SDA
+    :param str scl_pin: pin name of I2C SCL
+    :return: tuple(str, list[str]): test result followed by list of pins tested
+    """
 
-		# Tell user to connect EEPROM chip
-		print("Connect a Microchip AT24HC04B EEPROM I2C chip. " +
-				"Press enter to continue.")
-		input()
+    # Write values to I2C EEPROM and verify the values match
+    if list(set(pins).intersection(set([sda_pin, scl_pin]))):
 
-		# Set up I2C
-		i2c = busio.I2C(getattr(board, scl_pin), getattr(board, sda_pin))
+        # Tell user to connect EEPROM chip
+        print("Connect a Microchip AT24HC04B EEPROM I2C chip. " +
+            "Press enter to continue.")
+        input()
 
-		# Wait for I2C lock
-		while not i2c.try_lock():
-			pass
+        # Set up I2C
+        i2c = busio.I2C(getattr(board, scl_pin), getattr(board, sda_pin))
 
-		# Pick a random address, write to it, read from it, and see if they match
-		pass_test = True
-		for i in range(NUM_I2C_TESTS):
+        # Wait for I2C lock
+        while not i2c.try_lock():
+            pass
 
-			# Randomly pick an address and a data value (one byte)
-			mem_addr = random.randint(0, EEPROM_I2C_MAX_ADDR)
-			mem_data = random.randint(0, 255)
-			print("Address:\t" + hex(mem_addr))
-			print("Writing:\t" + hex(mem_data))
+        # Pick a random address, write to it, read from it, and see if they match
+        pass_test = True
+        for i in range(NUM_I2C_TESTS):
 
-			# Try writing this random value to the random address
-			result = _eeprom_i2c_write_byte(i2c, EEPROM_I2C_ADDR, mem_addr, mem_data)
-			if result == False:
-				print("FAIL: I2C could not communicate")
-				pass_test = False
-				break
+            # Randomly pick an address and a data value (one byte)
+            mem_addr = random.randint(0, EEPROM_I2C_MAX_ADDR)
+            mem_data = random.randint(0, 255)
+            print("Address:\t" + hex(mem_addr))
+            print("Writing:\t" + hex(mem_data))
 
-			# Try reading the written value back from EEPROM
-			result = _eeprom_i2c_read_byte(i2c, EEPROM_I2C_ADDR, mem_addr)
-			print("Read:\t\t" + hex(result[1][0]))
-			print()
-			if result[0] == False:
-				print("FAIL: I2C could not communicate")
-				pass_test = False
-				break
+            # Try writing this random value to the random address
+            result = _eeprom_i2c_write_byte(i2c, EEPROM_I2C_ADDR, mem_addr, mem_data)
+            if result == False:
+                print("FAIL: I2C could not communicate")
+                pass_test = False
+                break
 
-			# Compare the read value to the original value
-			if result[1][0] != mem_data:
-				print("FAIL: Data does not match")
-				pass_test = False
-				break
+            # Try reading the written value back from EEPROM
+            result = _eeprom_i2c_read_byte(i2c, EEPROM_I2C_ADDR, mem_addr)
+            print("Read:\t\t" + hex(result[1][0]))
+            print()
+            if result[0] == False:
+                print("FAIL: I2C could not communicate")
+                pass_test = False
+                break
 
-		# Release I2C pins
-		i2c.deinit()
+            # Compare the read value to the original value
+            if result[1][0] != mem_data:
+                print("FAIL: Data does not match")
+                pass_test = False
+                break
 
-		# Store results
-		if pass_test:
-			return PASS, [sda_pin, scl_pin]
-		else:
-			return FAIL, [sda_pin, scl_pin]
-	
-	else:
-		print("No I2C pins found")
-		return NA, []
+        # Release I2C pins
+        i2c.deinit()
+
+        # Store results
+        if pass_test:
+            return PASS, [sda_pin, scl_pin]
+        else:
+            return FAIL, [sda_pin, scl_pin]
+    
+    else:
+        print("No I2C pins found")
+        return NA, []
 
 def _main():
     

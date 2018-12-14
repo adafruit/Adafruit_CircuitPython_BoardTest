@@ -20,26 +20,33 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-`uart_test`
+`UART Test`
 ====================================================
-UART Test Module
-
-* Author(s): Shawn Hymel
-* Date: December 8, 2018
-
-Implementation Notes
---------------------
-Performs random writes and reads across UART.
-
-You will need to connect a loopback wire from TX to RX on your board.
+Performs random writes and reads across UART. Connect a wire from TX pin to RX pin.
 
 Run this script as its own main.py to individually run the test, or compile 
 with mpy-cross and call from separate test script.
+
+* Author(s): Shawn Hymel for Adafruit Industries
+
+Implementation Notes
+--------------------
+
+**Software and Dependencies:**
+
+* Adafruit CircuitPython firmware for the supported boards:
+  https://github.com/adafruit/circuitpython/releases
+* Adafruit's Bus Device library: 
+  https://github.com/adafruit/Adafruit_CircuitPython_BusDevice
+
 """
 
 import board
 import busio
 import random
+
+__version__ = "0.0.0-auto.0"
+__repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
 
 # Constants
 TX_PIN_NAME = 'TX'
@@ -55,6 +62,15 @@ FAIL = "FAIL"
 NA = "N/A"
 
 def run_test(pins, tx_pin=TX_PIN_NAME, rx_pin=RX_PIN_NAME, baud_rate=BAUD_RATE):
+    
+    """
+    Performs random writes out of TX pin and reads on RX.
+    
+    :param list[str] pins: list of pins to run the test on
+    :param str tx_pin: pin name of UART TX
+    :param str rx_pin: pin name of UART RX
+    :return: tuple(str, list[str]): test result followed by list of pins tested
+    """
     
     # Echo some values over the UART
     if list(set(pins).intersection(set([tx_pin, rx_pin]))):
