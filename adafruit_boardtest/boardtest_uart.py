@@ -20,26 +20,34 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-`uart_test`
+`adafruit_boardtest.boardtest_uart`
 ====================================================
-UART Test Module
+Performs random writes and reads across UART. Connect a wire from TX pin to RX pin.
 
-* Author(s): Shawn Hymel
-* Date: December 8, 2018
+Run this script as its own main.py to individually run the test, or compile
+with mpy-cross and call from separate test script.
+
+* Author(s): Shawn Hymel for Adafruit Industries
 
 Implementation Notes
 --------------------
-Performs random writes and reads across UART.
 
-You will need to connect a loopback wire from TX to RX on your board.
+**Software and Dependencies:**
 
-Run this script as its own main.py to individually run the test, or compile 
-with mpy-cross and call from separate test script.
+* Adafruit CircuitPython firmware for the supported boards:
+  https://github.com/adafruit/circuitpython/releases
+* Adafruit's Bus Device library:
+  https://github.com/adafruit/Adafruit_CircuitPython_BusDevice
+
 """
+
+import random
 
 import board
 import busio
-import random
+
+__version__ = "0.0.0-auto.0"
+__repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
 
 # Constants
 TX_PIN_NAME = 'TX'
@@ -55,59 +63,68 @@ FAIL = "FAIL"
 NA = "N/A"
 
 def run_test(pins, tx_pin=TX_PIN_NAME, rx_pin=RX_PIN_NAME, baud_rate=BAUD_RATE):
-    
+
+    """
+    Performs random writes out of TX pin and reads on RX.
+
+    :param list[str] pins: list of pins to run the test on
+    :param str tx_pin: pin name of UART TX
+    :param str rx_pin: pin name of UART RX
+    :return: tuple(str, list[str]): test result followed by list of pins tested
+    """
+
     # Echo some values over the UART
     if list(set(pins).intersection(set([tx_pin, rx_pin]))):
-        
+
         # Tell user to create loopback connection
         print("Connect a wire from TX to RX. Press enter to continue.")
         input()
-        
+
         # Initialize UART
-        uart = busio.UART(getattr(board, tx_pin), 
-                            getattr(board, rx_pin), 
-                            baudrate=baud_rate)
-        uart.reset_input_buffer()
-        
+        uart = busio.UART(getattr(board, tx_pin),
+                          getattr(board, rx_pin),
+                          baudrate=baud_rate)
+        uart.reset_input_buffer()   # pylint: disable=no-member
+
         # Generate test string
         test_str = ""
-        for i in range(NUM_UART_BYTES):
+        for _ in range(NUM_UART_BYTES):
             test_str += chr(random.randint(ASCII_MIN, ASCII_MAX))
-        
+
         # Transmit test string
         uart.write(test_str)
         print("Transmitting:\t" + test_str)
-        
+
         # Wait for received string
         data = uart.read(len(test_str))
         recv_str = ''
         if data is not None:
             recv_str = ''.join([chr(b) for b in data])
             print("Received:\t" + recv_str)
-            
+
         # Release UART pins
         uart.deinit()
-        
+
         # Compare strings
         if recv_str == test_str:
             return PASS, [tx_pin, rx_pin]
-        else:
-            return FAIL, [tx_pin, rx_pin]
-            
-    else:
-        print("No UART pins found")
-        return NA, []
+
+        return FAIL, [tx_pin, rx_pin]
+
+    # Else (no pins found)
+    print("No UART pins found")
+    return NA, []
 
 def _main():
-    
+
     # List out all the pins available to us
     pins = [p for p in dir(board)]
     print()
     print("All pins found:", end=' ')
-    
+
     # Print pins
-    for p in pins:
-        print(p, end=' ')
+    for pin in pins:
+        print(pin, end=' ')
     print('\n')
 
     # Run test

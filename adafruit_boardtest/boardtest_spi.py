@@ -20,28 +20,41 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-`spi_test`
+`adafruit_boardtest.boardtest_spi`
 ====================================================
-SPI Test Module
+Performs random writes and reads to SPI EEPROM.
 
-* Author(s): Shawn Hymel
-* Date: December 8, 2018
+Run this script as its own main.py to individually run the test, or compile
+with mpy-cross and call from separate test script.
+
+* Author(s): Shawn Hymel for Adafruit Industries
 
 Implementation Notes
 --------------------
-Performs random writes and reads to SPI EEPROM.
 
-Requires Microchip 25AA040A SPI EEPROM.
+**Hardware:**
 
-Run this script as its own main.py to individually run the test, or compile 
-with mpy-cross and call from separate test script.
+* `Microchip 25AA040A SPI EEPROM <https://www.digikey.com/product-detail/en/\
+microchip-technology/25AA040A-I-P/25AA040A-I-P-ND/1212469>`_
+
+**Software and Dependencies:**
+
+* Adafruit CircuitPython firmware for the supported boards:
+  https://github.com/adafruit/circuitpython/releases
+* Adafruit's Bus Device library:
+  https://github.com/adafruit/Adafruit_CircuitPython_BusDevice
+
 """
+
+import random
+import time
 
 import board
 import digitalio
 import busio
-import random
-import time
+
+__version__ = "0.0.0-auto.0"
+__repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
 
 # Constants
 MOSI_PIN_NAME = 'MOSI'
@@ -68,78 +81,89 @@ FAIL = "FAIL"
 NA = "N/A"
 
 # Wait for WIP bit to go low
-def _eeprom_spi_wait(spi, cs, timeout = 1.0):
-    
+def _eeprom_spi_wait(spi, csel, timeout=1.0):
+
     # Continually read from STATUS register
     timestamp = time.monotonic()
     while time.monotonic() < timestamp + timeout:
-        
+
         # Perfrom RDSR operation
-        cs.value = False
+        csel.value = False
         result = bytearray(1)
         spi.write(bytearray([EEPROM_SPI_RDSR]))
         spi.readinto(result)
-        cs.value = True
-        
+        csel.value = True
+
         # Mask out and compare WIP bit
         if (result[0] & (1 << EEPROM_SPI_WIP_BIT)) == 0:
             return True
-            
+
     return False
-    
+
 # Write to address. Returns status (True for successful write, False otherwise)
-def _eeprom_spi_write_byte(spi, cs, address, data, timeout = 1.0):
-    
+def _eeprom_spi_write_byte(spi, csel, address, data, timeout=1.0):
+
     # Make sure address is only one byte:
     if address > 255:
         return False
-        
+
     # Make sure data is only one byte:
     if data > 255:
         return False
-    
+
     # Wait for WIP to be low
-    if _eeprom_spi_wait(spi, cs, timeout) == False:
+    if not _eeprom_spi_wait(spi, csel, timeout):
         return False
-        
+
     # Enable writing
-    cs.value = False
+    csel.value = False
     spi.write(bytearray([EEPROM_SPI_WREN]))
-    cs.value = True
-    
+    csel.value = True
+
     # Write to address
-    cs.value = False
+    csel.value = False
     spi.write(bytearray([EEPROM_SPI_WRITE, address, data]))
-    cs.value = True
-    
+    csel.value = True
+
     return True
 
 # Read from address. Returns tuple [status, result]
-def _eeprom_spi_read_byte(spi, cs, address, timeout = 1.0):
-    
+def _eeprom_spi_read_byte(spi, csel, address, timeout=1.0):
+
     # Make sure address is only one byte:
     if address > 255:
         return False, bytearray()
-    
+
     # Wait for WIP to be low
-    if _eeprom_spi_wait(spi, cs, timeout) == False:
+    if not _eeprom_spi_wait(spi, csel, timeout):
         return False, bytearray()
-    
+
     # Read byte from address
-    cs.value = False
+    csel.value = False
     result = bytearray(1)
     spi.write(bytearray([EEPROM_SPI_READ, address]))
     spi.readinto(result)
-    cs.value = True
-    
+    csel.value = True
+
     return True, result
 
-def run_test(   pins,
-                mosi_pin=MOSI_PIN_NAME, 
-                miso_pin=MISO_PIN_NAME, 
-                sck_pin=SCK_PIN_NAME,
-                cs_pin=CS_PIN_NAME):
-    
+def run_test(pins,
+             mosi_pin=MOSI_PIN_NAME,
+             miso_pin=MISO_PIN_NAME,
+             sck_pin=SCK_PIN_NAME,
+             cs_pin=CS_PIN_NAME):
+
+    """
+    Performs random writes and reads to file on attached SD card.
+
+    :param list[str] pins: list of pins to run the test on
+    :param str mosi_pin: pin name of SPI MOSI
+    :param str miso_pin: pin name of SPI MISO
+    :param str sck_pin: pin name of SPI SCK
+    :param str cs_pin: pin name of SPI CS
+    :return: tuple(str, list[str]): test result followed by list of pins tested
+    """
+
     # Write values to SPI EEPROM and verify the values match
     if list(set(pins).intersection(set([mosi_pin, miso_pin, sck_pin]))):
 
@@ -150,14 +174,14 @@ def run_test(   pins,
         input()
 
         # Configure CS pin
-        cs = digitalio.DigitalInOut(getattr(board, cs_pin))
-        cs.direction = digitalio.Direction.OUTPUT
-        cs.value = True
+        csel = digitalio.DigitalInOut(getattr(board, cs_pin))
+        csel.direction = digitalio.Direction.OUTPUT
+        csel.value = True
 
         # Set up SPI
-        spi = busio.SPI(getattr(board, sck_pin), 
-						MOSI=getattr(board, mosi_pin), 
-						MISO=getattr(board, miso_pin))
+        spi = busio.SPI(getattr(board, sck_pin),
+                        MOSI=getattr(board, mosi_pin),
+                        MISO=getattr(board, miso_pin))
 
         # Wait for SPI lock
         while not spi.try_lock():
@@ -166,59 +190,59 @@ def run_test(   pins,
 
         # Pick a random address, write to it, read from it, and see if they match
         pass_test = True
-        for i in range(NUM_SPI_TESTS):
-            
+        for _ in range(NUM_SPI_TESTS):
+
             # Randomly pick an address and a data value (one byte)
             mem_addr = random.randint(0, EEPROM_SPI_MAX_ADDR)
             mem_data = random.randint(0, 255)
             print("Address:\t" + hex(mem_addr))
             print("Writing:\t" + hex(mem_data))
-            
+
             # Try writing this random value to the random address
-            result = _eeprom_spi_write_byte(spi, cs, mem_addr, mem_data)
-            if result == False:
+            result = _eeprom_spi_write_byte(spi, csel, mem_addr, mem_data)
+            if not result:
                 print("FAIL: SPI could not communicate")
                 pass_test = False
                 break
-                
+
             # Try reading the written value back from EEPRom
-            result = _eeprom_spi_read_byte(spi, cs, mem_addr)
+            result = _eeprom_spi_read_byte(spi, csel, mem_addr)
             print("Read:\t\t" + hex(result[1][0]))
             print()
-            if result[0] == False:
+            if not result[0]:
                 print("FAIL: SPI could not communicate")
                 pass_test = False
                 break
-                
+
             # Compare the read value to the original value
             if result[1][0] != mem_data:
                 print("FAIL: Data does not match")
                 pass_test = False
                 break
-                
+
         # Release SPI pins
         spi.deinit()
-        
+
         # Return results
         if pass_test:
             return PASS, [mosi_pin, miso_pin, sck_pin]
-        else:
-            return FAIL, [mosi_pin, miso_pin, sck_pin]
-            
-    else:
-        print("No SPI pins found")
-        return NA, []
+
+        return FAIL, [mosi_pin, miso_pin, sck_pin]
+
+    # Else (no pins found)
+    print("No SPI pins found")
+    return NA, []
 
 def _main():
-    
+
     # List out all the pins available to us
     pins = [p for p in dir(board)]
     print()
     print("All pins found:", end=' ')
-    
+
     # Print pins
-    for p in pins:
-        print(p, end=' ')
+    for pin in pins:
+        print(pin, end=' ')
     print('\n')
 
     # Run test

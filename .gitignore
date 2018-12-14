@@ -1,69 +1,12 @@
-# Compiled Sources
-###################
-*.o
-*.a
-!atmel-samd/asf/**/*.a
-*.elf
-*.bin
-*.map
-*.hex
-*.dis
-*.exe
 *.mpy
-
-# Packages
-############
-
-# Logs and Databases
-######################
-*.log
-
-# VIM Swap Files
-######################
-*.swp
-
-# Build directory
-######################
-build/
-bin/
-
-# Test failure outputs
-######################
-tests/*.exp
-tests/*.out
-
-# Python cache files
-######################
-__pycache__/
-*.pyc
-
-# Customized Makefile/project overrides
-######################
-GNUmakefile
-user.props
-
-# Sphinx output
-###############
+.idea
+__pycache__
 _build
-
-# Generated rst files
-######################
-genrst/
-
-# ctags and similar
-###################
-TAGS
-
-# Merge leftovers
-#################
-*.orig
-
-# Emacs backup files
-####################
-*~
-
+*.pyc
+.env
+build*
+bundles
 *.DS_Store
-
-# POEdit mo files
-####################
-*.mo
+.eggs
+dist
+**/*.egg-info

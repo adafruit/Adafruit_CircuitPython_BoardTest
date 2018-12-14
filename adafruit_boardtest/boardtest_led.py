@@ -20,26 +20,33 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-`gpio_test`
+`adafruit_boardtest.boardtest_led`
 ====================================================
-GPIO Test Module
+Toggles all available onboard LEDs. You will need to manually verify their
+operation by watching them.
 
-* Author(s): Shawn Hymel
-* Date: December 8, 2018
+Run this script as its own main.py to individually run the test, or compile
+with mpy-cross and call from separate test script.
+
+* Author(s): Shawn Hymel for Adafruit Industries
 
 Implementation Notes
 --------------------
-Toggles all available GPIO on a board. Verify their operation with an LED,
-multimeter, another microcontroller, etc.
 
-Run this script as its own main.py to individually run the test, or compile 
-with mpy-cross and call from separate test script.
+**Software and Dependencies:**
+
+* Adafruit CircuitPython firmware for the supported boards:
+  https://github.com/adafruit/circuitpython/releases
+
 """
+import time
 
 import board
 import digitalio
 import supervisor
-import time
+
+__version__ = "0.0.0-auto.0"
+__repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
 
 # Constants
 LED_ON_DELAY_TIME = 0.2     # Seconds
@@ -51,14 +58,6 @@ PASS = "PASS"
 FAIL = "FAIL"
 NA = "N/A"
 
-# Determine if given value is a number
-def _is_number(s):
-	try:
-		float(s)
-		return True
-	except ValueError:
-		return False
-
 # Release pins
 def _deinit_pins(gpios):
     for g in gpios:
@@ -66,9 +65,7 @@ def _deinit_pins(gpios):
 
 # Toggle IO pins while waiting for answer
 def _toggle_wait(gpios):
-    
-    global test_results
-    
+
     timestamp = time.monotonic()
     led_state = False
     print("Are the pins listed above toggling? [y/n]")
@@ -87,60 +84,61 @@ def _toggle_wait(gpios):
             answer = input()
             if answer == 'y':
                 return True
-            else:
-                return False
-                break
+            return False
 
 def run_test(pins):
-    
-    # Create a list of analog GPIO pins
-    analog_pins = [p for p in pins if p[0] == 'A' and _is_number(p[1])]
 
-    # Create a list of digital GPIO
-    digital_pins = [p for p in pins if p[0] == 'D' and _is_number(p[1])]
+    """
+    Toggles the onboard LED(s) on and off.
+
+    :param list[str] pins: list of pins to run the test on
+    :return: tuple(str, list[str]): test result followed by list of pins tested
+    """
+
+    # Look for pins with LED names
+    led_pins = list(set(pins).intersection(set(LED_PIN_NAMES)))
 
     # Toggle LEDs if we find any
-    gpio_pins = analog_pins + digital_pins
-    if gpio_pins:
-        
-        # Create a list of IO objects for us to toggle
-        gpios = [digitalio.DigitalInOut(getattr(board, p)) for p in gpio_pins]
+    if led_pins:
 
         # Print out the LEDs found
-        print("GPIO pins found:", end=' ')
-        for p in gpio_pins:
-            print(p, end=' ')
+        print("LEDs found:", end=' ')
+        for pin in led_pins:
+            print(pin, end=' ')
         print('\n')
 
-        # Set all IO to output
-        for gpio in gpios:
-            gpio.direction = digitalio.Direction.OUTPUT
+        # Create a list of IO objects for us to toggle
+        leds = [digitalio.DigitalInOut(getattr(board, p)) for p in led_pins]
 
-        # Toggle pins while waiting for user to verify LEDs blinking
-        result = _toggle_wait(gpios)
-        
+        # Set all LEDs to output
+        for led in leds:
+            led.direction = digitalio.Direction.OUTPUT
+
+        # Blink LEDs and wait for user to verify test
+        result = _toggle_wait(leds)
+
         # Release pins
-        _deinit_pins(gpios)
-        
+        _deinit_pins(leds)
+
         if result:
-            return PASS, gpio_pins
-        else:
-            return FAIL, gpio_pins
-    
-    else:
-        print("No GPIO pins found")
-        return NA, []
+            return PASS, led_pins
+
+        return FAIL, led_pins
+
+    # Else (no pins found)
+    print("No LED pins found")
+    return NA, []
 
 def _main():
-    
+
     # List out all the pins available to us
     pins = [p for p in dir(board)]
     print()
     print("All pins found:", end=' ')
-    
+
     # Print pins
-    for p in pins:
-        print(p, end=' ')
+    for pin in pins:
+        print(pin, end=' ')
     print('\n')
 
     # Run test
