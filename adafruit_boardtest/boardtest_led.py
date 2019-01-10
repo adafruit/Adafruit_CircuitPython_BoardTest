@@ -51,40 +51,47 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
 # Constants
 LED_ON_DELAY_TIME = 0.2     # Seconds
 LED_OFF_DELAY_TIME = 0.2    # Seconds
-LED_PIN_NAMES = ['L', 'LED', 'RED_LED', 'GREEN_LED', 'BLUE_LED']
+LED_PIN_NAMES = ['L', 'LED', 'RED_LED', 'YELLOW_LED', 'GREEN_LED', 'BLUE_LED']
 
 # Test result strings
 PASS = "PASS"
 FAIL = "FAIL"
 NA = "N/A"
 
-# Release pins
-def _deinit_pins(gpios):
-    for g in gpios:
-        g.deinit()
-
 # Toggle IO pins while waiting for answer
-def _toggle_wait(gpios):
-
+def _toggle_wait(led_pins):
     timestamp = time.monotonic()
     led_state = False
     print("Are the pins listed above toggling? [y/n]")
     while True:
-        if led_state:
-            if time.monotonic() > timestamp + LED_ON_DELAY_TIME:
-                led_state = False
-                timestamp = time.monotonic()
-        else:
-            if time.monotonic() > timestamp + LED_OFF_DELAY_TIME:
-                led_state = True
-                timestamp = time.monotonic()
-        for gpio in gpios:
-            gpio.value = led_state
-        if supervisor.runtime.serial_bytes_available:
-            answer = input()
-            if answer == 'y':
-                return True
-            return False
+
+        # Cycle through each pin in the list
+        for pin in led_pins:
+            led = digitalio.DigitalInOut(getattr(board, pin))
+            led.direction = digitalio.Direction.OUTPUT
+            blinking = True
+
+            # Blink each LED once while looking for input
+            while blinking:
+                if led_state:
+                    if time.monotonic() > timestamp + LED_ON_DELAY_TIME:
+                        led_state = False
+                        led.value = led_state
+                        led.deinit()
+                        blinking = False
+                        timestamp = time.monotonic()
+                else:
+                    if time.monotonic() > timestamp + LED_OFF_DELAY_TIME:
+                        led_state = True
+                        led.value = led_state
+                        timestamp = time.monotonic()
+
+                # Look for user input
+                if supervisor.runtime.serial_bytes_available:
+                    answer = input()
+                    if answer == 'y':
+                        return True
+                    return False
 
 def run_test(pins):
 
@@ -107,18 +114,8 @@ def run_test(pins):
             print(pin, end=' ')
         print('\n')
 
-        # Create a list of IO objects for us to toggle
-        leds = [digitalio.DigitalInOut(getattr(board, p)) for p in led_pins]
-
-        # Set all LEDs to output
-        for led in leds:
-            led.direction = digitalio.Direction.OUTPUT
-
         # Blink LEDs and wait for user to verify test
-        result = _toggle_wait(leds)
-
-        # Release pins
-        _deinit_pins(leds)
+        result = _toggle_wait(led_pins)
 
         if result:
             return PASS, led_pins

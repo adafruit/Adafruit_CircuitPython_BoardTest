@@ -92,7 +92,7 @@ def run_test(pins, tx_pin=TX_PIN_NAME, rx_pin=RX_PIN_NAME, baud_rate=BAUD_RATE):
             test_str += chr(random.randint(ASCII_MIN, ASCII_MAX))
 
         # Transmit test string
-        uart.write(test_str)
+        uart.write(bytearray(test_str))
         print("Transmitting:\t" + test_str)
 
         # Wait for received string
