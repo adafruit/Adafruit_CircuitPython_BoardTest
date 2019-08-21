@@ -74,7 +74,7 @@ def _eeprom_i2c_wait(i2c, i2c_addr, mem_addr, timeout=1.0):
     timestamp = time.monotonic()
     while time.monotonic() < timestamp + timeout:
         try:
-            i2c.writeto(i2c_addr, bytearray([mem_addr]), end=1, stop=False)
+            i2c.writeto(i2c_addr, bytearray([mem_addr]), end=1)
             return True
         except OSError:
             pass
@@ -113,7 +113,7 @@ def _eeprom_i2c_read_byte(i2c, i2c_addr, mem_addr, timeout=1.0):
 
     # Finish the read
     buf = bytearray(1)
-    i2c.readfrom_into(i2c_addr, buf)
+    i2c.writeto_then_readfrom(i2c_addr, bytearray([mem_addr]), buf)
 
     return True, buf
 
