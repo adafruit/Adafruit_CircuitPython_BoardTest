@@ -19,7 +19,7 @@ Tests can be run individually. Copy code found in each *boardtest_<name>.py* mod
 
 Alternatively, tests can be imported as modules. Copy the desired test file to CIRCUITPYTHON device drive and import the test in your own code. Each test can be run with the ``run_test(pins)`` function.
 
-The *boardtest_suite.py* (in *examples/*) shows how to call tests from within a script. *boardtest_suite.py* runs the following tests:
+The *boardtest_simpletest.py* (in *examples/*) shows how to call tests from within a script. *boardtest_simpletest.py* runs the following tests:
 
  * LED Test
  * GPIO Test
