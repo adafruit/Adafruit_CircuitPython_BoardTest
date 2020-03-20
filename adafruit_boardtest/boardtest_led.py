@@ -49,9 +49,9 @@ __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
 
 # Constants
-LED_ON_DELAY_TIME = 0.2     # Seconds
-LED_OFF_DELAY_TIME = 0.2    # Seconds
-LED_PIN_NAMES = ['L', 'LED', 'RED_LED', 'YELLOW_LED', 'GREEN_LED', 'BLUE_LED']
+LED_ON_DELAY_TIME = 0.2  # Seconds
+LED_OFF_DELAY_TIME = 0.2  # Seconds
+LED_PIN_NAMES = ["L", "LED", "RED_LED", "YELLOW_LED", "GREEN_LED", "BLUE_LED"]
 
 # Test result strings
 PASS = "PASS"
@@ -89,9 +89,10 @@ def _toggle_wait(led_pins):
                 # Look for user input
                 if supervisor.runtime.serial_bytes_available:
                     answer = input()
-                    if answer == 'y':
+                    if answer == "y":
                         return True
                     return False
+
 
 def run_test(pins):
 
@@ -109,10 +110,10 @@ def run_test(pins):
     if led_pins:
 
         # Print out the LEDs found
-        print("LEDs found:", end=' ')
+        print("LEDs found:", end=" ")
         for pin in led_pins:
-            print(pin, end=' ')
-        print('\n')
+            print(pin, end=" ")
+        print("\n")
 
         # Blink LEDs and wait for user to verify test
         result = _toggle_wait(led_pins)
@@ -126,23 +127,25 @@ def run_test(pins):
     print("No LED pins found")
     return NA, []
 
+
 def _main():
 
     # List out all the pins available to us
-    pins = [p for p in dir(board)]
+    pins = list(dir(board))
     print()
-    print("All pins found:", end=' ')
+    print("All pins found:", end=" ")
 
     # Print pins
     for pin in pins:
-        print(pin, end=' ')
-    print('\n')
+        print(pin, end=" ")
+    print("\n")
 
     # Run test
     result = run_test(pins)
     print()
     print(result[0])
     print("Pins tested: " + str(result[1]))
+
 
 # Execute only if run as main.py or code.py
 if __name__ == "__main__":

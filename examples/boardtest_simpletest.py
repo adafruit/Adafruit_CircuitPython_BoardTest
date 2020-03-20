@@ -74,15 +74,15 @@ from adafruit_boardtest import boardtest_spi
 from adafruit_boardtest import boardtest_i2c
 
 # Constants
-UART_TX_PIN_NAME = 'TX'
-UART_RX_PIN_NAME = 'RX'
+UART_TX_PIN_NAME = "TX"
+UART_RX_PIN_NAME = "RX"
 UART_BAUD_RATE = 9600
-SPI_MOSI_PIN_NAME = 'MOSI'
-SPI_MISO_PIN_NAME = 'MISO'
-SPI_SCK_PIN_NAME = 'SCK'
-SPI_CS_PIN_NAME = 'D2'
-I2C_SDA_PIN_NAME = 'SDA'
-I2C_SCL_PIN_NAME = 'SCL'
+SPI_MOSI_PIN_NAME = "MOSI"
+SPI_MISO_PIN_NAME = "MISO"
+SPI_SCK_PIN_NAME = "SCK"
+SPI_CS_PIN_NAME = "D2"
+I2C_SDA_PIN_NAME = "SDA"
+I2C_SCL_PIN_NAME = "SCL"
 
 # Results dictionary
 TEST_RESULTS = {}
@@ -136,13 +136,13 @@ print("**********************************************************************")
 print()
 
 # List out all the pins available to us
-PINS = [p for p in dir(board)]
-print("All pins found:", end=' ')
+PINS = list(dir(board))
+print("All pins found:", end=" ")
 
 # Print pins
 for pin in PINS:
-    print(pin, end=' ')
-print('\n')
+    print(pin, end=" ")
+print("\n")
 
 # Run LED test
 print("@)}---^-----  LED TEST  -----^---{(@")
@@ -177,7 +177,9 @@ print()
 # Run UART test
 print("@)}---^-----  UART TEST  -----^---{(@")
 print()
-RESULT = boardtest_uart.run_test(PINS, UART_TX_PIN_NAME, UART_RX_PIN_NAME, UART_BAUD_RATE)
+RESULT = boardtest_uart.run_test(
+    PINS, UART_TX_PIN_NAME, UART_RX_PIN_NAME, UART_BAUD_RATE
+)
 TEST_RESULTS["UART Test"] = RESULT[0]
 PINS_TESTED.append(RESULT[1])
 print()
@@ -187,11 +189,13 @@ print()
 # Run SPI test
 print("@)}---^-----  SPI TEST  -----^---{(@")
 print()
-RESULT = boardtest_spi.run_test(PINS,
-                                mosi_pin=SPI_MOSI_PIN_NAME,
-                                miso_pin=SPI_MISO_PIN_NAME,
-                                sck_pin=SPI_SCK_PIN_NAME,
-                                cs_pin=SPI_CS_PIN_NAME)
+RESULT = boardtest_spi.run_test(
+    PINS,
+    mosi_pin=SPI_MOSI_PIN_NAME,
+    miso_pin=SPI_MISO_PIN_NAME,
+    sck_pin=SPI_SCK_PIN_NAME,
+    cs_pin=SPI_CS_PIN_NAME,
+)
 TEST_RESULTS["SPI Test"] = RESULT[0]
 PINS_TESTED.append(RESULT[1])
 print()
@@ -201,7 +205,9 @@ print()
 # Run I2C test
 print("@)}---^-----  I2C TEST  -----^---{(@")
 print()
-RESULT = boardtest_i2c.run_test(PINS, sda_pin=I2C_SDA_PIN_NAME, scl_pin=I2C_SCL_PIN_NAME)
+RESULT = boardtest_i2c.run_test(
+    PINS, sda_pin=I2C_SDA_PIN_NAME, scl_pin=I2C_SCL_PIN_NAME
+)
 TEST_RESULTS["I2C Test"] = RESULT[0]
 PINS_TESTED.append(RESULT[1])
 print()
@@ -220,9 +226,9 @@ for key in TEST_RESULTS:
 
 # Print test results
 for key in TEST_RESULTS:
-    print(key + ":", end=' ')
+    print(key + ":", end=" ")
     for i in range(NUM_SPACES - len(key)):
-        print(end=' ')
+        print(end=" ")
     print(TEST_RESULTS[key])
 print()
 
@@ -234,13 +240,13 @@ for sublist in PINS_TESTED:
 NOT_TESTED = list(set(PINS).difference(set(TESTED)))
 
 # Print tested pins
-print("The following pins were tested:", end=' ')
+print("The following pins were tested:", end=" ")
 for pin in TESTED:
-    print(pin, end=' ')
-print('\n')
+    print(pin, end=" ")
+print("\n")
 
 # Print pins not tested
-print("The following pins were NOT tested:", end=' ')
+print("The following pins were NOT tested:", end=" ")
 for pin in NOT_TESTED:
-    print(pin, end=' ')
-print('\n')
+    print(pin, end=" ")
+print("\n")

@@ -50,9 +50,9 @@ __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
 
 # Constants
-LED_ON_DELAY_TIME = 0.2     # Seconds
-LED_OFF_DELAY_TIME = 0.2    # Seconds
-LED_PIN_NAMES = ['L', 'LED', 'RED_LED', 'GREEN_LED', 'BLUE_LED']
+LED_ON_DELAY_TIME = 0.2  # Seconds
+LED_OFF_DELAY_TIME = 0.2  # Seconds
+LED_PIN_NAMES = ["L", "LED", "RED_LED", "GREEN_LED", "BLUE_LED"]
 
 # Test result strings
 PASS = "PASS"
@@ -67,10 +67,12 @@ def _is_number(val):
     except ValueError:
         return False
 
+
 # Release pins
 def _deinit_pins(gpios):
     for g in gpios:
         g.deinit()
+
 
 # Toggle IO pins while waiting for answer
 def _toggle_wait(gpios):
@@ -91,7 +93,8 @@ def _toggle_wait(gpios):
             gpio.value = led_state
         if supervisor.runtime.serial_bytes_available:
             answer = input()
-            return bool(answer == 'y')
+            return bool(answer == "y")
+
 
 def run_test(pins):
 
@@ -103,10 +106,10 @@ def run_test(pins):
     """
 
     # Create a list of analog GPIO pins
-    analog_pins = [p for p in pins if p[0] == 'A' and _is_number(p[1])]
+    analog_pins = [p for p in pins if p[0] == "A" and _is_number(p[1])]
 
     # Create a list of digital GPIO
-    digital_pins = [p for p in pins if p[0] == 'D' and _is_number(p[1])]
+    digital_pins = [p for p in pins if p[0] == "D" and _is_number(p[1])]
 
     # Toggle LEDs if we find any
     gpio_pins = analog_pins + digital_pins
@@ -116,10 +119,10 @@ def run_test(pins):
         gpios = [digitalio.DigitalInOut(getattr(board, p)) for p in gpio_pins]
 
         # Print out the LEDs found
-        print("GPIO pins found:", end=' ')
+        print("GPIO pins found:", end=" ")
         for pin in gpio_pins:
-            print(pin, end=' ')
-        print('\n')
+            print(pin, end=" ")
+        print("\n")
 
         # Set all IO to output
         for gpio in gpios:
@@ -140,23 +143,25 @@ def run_test(pins):
     print("No GPIO pins found")
     return NA, []
 
+
 def _main():
 
     # List out all the pins available to us
-    pins = [p for p in dir(board)]
+    pins = list(dir(board))
     print()
-    print("All pins found:", end=' ')
+    print("All pins found:", end=" ")
 
     # Print pins
     for pin in pins:
-        print(pin, end=' ')
-    print('\n')
+        print(pin, end=" ")
+    print("\n")
 
     # Run test
     result = run_test(pins)
     print()
     print(result[0])
     print("Pins tested: " + str(result[1]))
+
 
 # Execute only if run as main.py or code.py
 if __name__ == "__main__":

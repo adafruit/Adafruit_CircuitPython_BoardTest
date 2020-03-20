@@ -57,12 +57,12 @@ __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
 
 # Constants
-MOSI_PIN_NAME = 'MOSI'
-MISO_PIN_NAME = 'MISO'
-SCK_PIN_NAME = 'SCK'
-CS_PIN_NAME = 'D2'
-BAUD_RATE = 100000          # Bits per second
-NUM_SPI_TESTS = 10          # Number of times to write and read EEPROM values
+MOSI_PIN_NAME = "MOSI"
+MISO_PIN_NAME = "MISO"
+SCK_PIN_NAME = "SCK"
+CS_PIN_NAME = "D2"
+BAUD_RATE = 100000  # Bits per second
+NUM_SPI_TESTS = 10  # Number of times to write and read EEPROM values
 
 # Microchip 25AA040A EEPROM SPI commands and bits
 EEPROM_SPI_WRSR = 0x01
@@ -72,8 +72,8 @@ EEPROM_SPI_WRDI = 0x04
 EEPROM_SPI_RDSR = 0x05
 EEPROM_SPI_WREN = 0x06
 EEPROM_SPI_WIP_BIT = 0
-EEPROM_SPI_MAX_ADDR = 255   # Self-imposed max memory address
-EEPROM_I2C_MAX_ADDR = 255   # Self-imposed max memory address
+EEPROM_SPI_MAX_ADDR = 255  # Self-imposed max memory address
+EEPROM_I2C_MAX_ADDR = 255  # Self-imposed max memory address
 
 # Test result strings
 PASS = "PASS"
@@ -99,6 +99,7 @@ def _eeprom_spi_wait(spi, csel, timeout=1.0):
             return True
 
     return False
+
 
 # Write to address. Returns status (True for successful write, False otherwise)
 def _eeprom_spi_write_byte(spi, csel, address, data, timeout=1.0):
@@ -127,6 +128,7 @@ def _eeprom_spi_write_byte(spi, csel, address, data, timeout=1.0):
 
     return True
 
+
 # Read from address. Returns tuple [status, result]
 def _eeprom_spi_read_byte(spi, csel, address, timeout=1.0):
 
@@ -147,11 +149,14 @@ def _eeprom_spi_read_byte(spi, csel, address, timeout=1.0):
 
     return True, result
 
-def run_test(pins,
-             mosi_pin=MOSI_PIN_NAME,
-             miso_pin=MISO_PIN_NAME,
-             sck_pin=SCK_PIN_NAME,
-             cs_pin=CS_PIN_NAME):
+
+def run_test(
+    pins,
+    mosi_pin=MOSI_PIN_NAME,
+    miso_pin=MISO_PIN_NAME,
+    sck_pin=SCK_PIN_NAME,
+    cs_pin=CS_PIN_NAME,
+):
 
     """
     Performs random writes and reads to file on attached SD card.
@@ -179,9 +184,11 @@ def run_test(pins,
         csel.value = True
 
         # Set up SPI
-        spi = busio.SPI(getattr(board, sck_pin),
-                        MOSI=getattr(board, mosi_pin),
-                        MISO=getattr(board, miso_pin))
+        spi = busio.SPI(
+            getattr(board, sck_pin),
+            MOSI=getattr(board, mosi_pin),
+            MISO=getattr(board, miso_pin),
+        )
 
         # Wait for SPI lock
         while not spi.try_lock():
@@ -233,23 +240,25 @@ def run_test(pins,
     print("No SPI pins found")
     return NA, []
 
+
 def _main():
 
     # List out all the pins available to us
-    pins = [p for p in dir(board)]
+    pins = list(dir(board))
     print()
-    print("All pins found:", end=' ')
+    print("All pins found:", end=" ")
 
     # Print pins
     for pin in pins:
-        print(pin, end=' ')
-    print('\n')
+        print(pin, end=" ")
+    print("\n")
 
     # Run test
     result = run_test(pins)
     print()
     print(result[0])
     print("Pins tested: " + str(result[1]))
+
 
 # Execute only if run as main.py or code.py
 if __name__ == "__main__":

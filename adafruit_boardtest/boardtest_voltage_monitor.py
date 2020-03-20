@@ -52,14 +52,15 @@ __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
 
 # Constants
-VOLTAGE_MONITOR_PIN_NAMES = ['VOLTAGE_MONITOR', 'BATTERY']
-ANALOG_REF = 3.3            # Reference analog voltage
-ANALOGIN_BITS = 16          # ADC resolution (bits) for CircuitPython
+VOLTAGE_MONITOR_PIN_NAMES = ["VOLTAGE_MONITOR", "BATTERY"]
+ANALOG_REF = 3.3  # Reference analog voltage
+ANALOGIN_BITS = 16  # ADC resolution (bits) for CircuitPython
 
 # Test result strings
 PASS = "PASS"
 FAIL = "FAIL"
 NA = "N/A"
+
 
 def run_test(pins):
 
@@ -77,25 +78,27 @@ def run_test(pins):
     if monitor_pins:
 
         # Print out the monitor pins found
-        print("Voltage monitor pins found:", end=' ')
+        print("Voltage monitor pins found:", end=" ")
         for pin in monitor_pins:
-            print(pin, end=' ')
-        print('\n')
+            print(pin, end=" ")
+        print("\n")
 
         # Print out the voltage found on each pin
         for pin in monitor_pins:
             monitor = analogio.AnalogIn(getattr(board, pin))
-            voltage = (monitor.value * ANALOG_REF) / (2**ANALOGIN_BITS)
+            voltage = (monitor.value * ANALOG_REF) / (2 ** ANALOGIN_BITS)
             print(pin + ": {:.2f}".format(voltage) + " V")
             monitor.deinit()
         print()
 
         # Ask the user to check these voltages
         print("Use a multimeter to verify these voltages.")
-        print("Note that some battery monitor pins might have onboard " +
-              "voltage dividers.")
+        print(
+            "Note that some battery monitor pins might have onboard "
+            + "voltage dividers."
+        )
         print("Do the values look reasonable? [y/n]")
-        if input() == 'y':
+        if input() == "y":
             return PASS, monitor_pins
 
         return FAIL, monitor_pins
@@ -104,23 +107,25 @@ def run_test(pins):
     print("No battery monitor pins found")
     return NA, []
 
+
 def _main():
 
     # List out all the pins available to us
-    pins = [p for p in dir(board)]
+    pins = list(dir(board))
     print()
-    print("All pins found:", end=' ')
+    print("All pins found:", end=" ")
 
     # Print pins
     for pin in pins:
-        print(pin, end=' ')
-    print('\n')
+        print(pin, end=" ")
+    print("\n")
 
     # Run test
     result = run_test(pins)
     print()
     print(result[0])
     print("Pins tested: " + str(result[1]))
+
 
 # Execute only if run as main.py or code.py
 if __name__ == "__main__":
