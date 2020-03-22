@@ -54,10 +54,10 @@ __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
 
 # Constants
-SDA_PIN_NAME = 'SDA'
-SCL_PIN_NAME = 'SCL'
-NUM_I2C_TESTS = 10          # Number of times to write and read EEPROM values
-EEPROM_I2C_MAX_ADDR = 255   # Self-imposed max memory address
+SDA_PIN_NAME = "SDA"
+SCL_PIN_NAME = "SCL"
+NUM_I2C_TESTS = 10  # Number of times to write and read EEPROM values
+EEPROM_I2C_MAX_ADDR = 255  # Self-imposed max memory address
 
 # Microchip AT24HC04B EEPROM I2C address
 EEPROM_I2C_ADDR = 0x50
@@ -81,6 +81,7 @@ def _eeprom_i2c_wait(i2c, i2c_addr, mem_addr, timeout=1.0):
 
     return False
 
+
 # Write to address. Returns status (True for successful write, False otherwise)
 def _eeprom_i2c_write_byte(i2c, i2c_addr, mem_addr, mem_data):
 
@@ -100,6 +101,7 @@ def _eeprom_i2c_write_byte(i2c, i2c_addr, mem_addr, mem_data):
 
     return True
 
+
 # Read from address. Returns tuple [status, result]
 def _eeprom_i2c_read_byte(i2c, i2c_addr, mem_addr, timeout=1.0):
 
@@ -117,6 +119,7 @@ def _eeprom_i2c_read_byte(i2c, i2c_addr, mem_addr, timeout=1.0):
 
     return True, buf
 
+
 def run_test(pins, sda_pin=SDA_PIN_NAME, scl_pin=SCL_PIN_NAME):
 
     """
@@ -132,8 +135,10 @@ def run_test(pins, sda_pin=SDA_PIN_NAME, scl_pin=SCL_PIN_NAME):
     if list(set(pins).intersection(set([sda_pin, scl_pin]))):
 
         # Tell user to connect EEPROM chip
-        print("Connect a Microchip AT24HC04B EEPROM I2C chip. " +
-              "Press enter to continue.")
+        print(
+            "Connect a Microchip AT24HC04B EEPROM I2C chip. "
+            + "Press enter to continue."
+        )
         input()
 
         # Set up I2C
@@ -188,23 +193,25 @@ def run_test(pins, sda_pin=SDA_PIN_NAME, scl_pin=SCL_PIN_NAME):
     print("No I2C pins found")
     return NA, []
 
+
 def _main():
 
     # List out all the pins available to us
-    pins = [p for p in dir(board)]
+    pins = list(dir(board))
     print()
-    print("All pins found:", end=' ')
+    print("All pins found:", end=" ")
 
     # Print pins
     for pin in pins:
-        print(pin, end=' ')
-    print('\n')
+        print(pin, end=" ")
+    print("\n")
 
     # Run test
     result = run_test(pins)
     print()
     print(result[0])
     print("Pins tested: " + str(result[1]))
+
 
 # Execute only if run as main.py or code.py
 if __name__ == "__main__":
