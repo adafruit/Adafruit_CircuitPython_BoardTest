@@ -99,8 +99,8 @@ def _main():
     print("All pins found:", end=" ")
 
     # Print pins
-    for pin in pins:
-        print(pin, end=" ")
+    for pin8 in pins:
+        print(pin8, end=" ")
     print("\n")
 
     # Run test

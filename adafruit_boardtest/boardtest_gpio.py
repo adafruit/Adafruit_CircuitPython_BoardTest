@@ -135,8 +135,8 @@ def _main():
     print("All pins found:", end=" ")
 
     # Print pins
-    for pin in pins:
-        print(pin, end=" ")
+    for pin1 in pins:
+        print(pin1, end=" ")
     print("\n")
 
     # Run test
