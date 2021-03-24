@@ -125,27 +125,3 @@ def run_test(pins):
     # Else (no pins found)
     print("No GPIO pins found")
     return NA, []
-
-
-def _main():
-
-    # List out all the pins available to us
-    pins = list(dir(board))
-    print()
-    print("All pins found:", end=" ")
-
-    # Print pins
-    for pin in pins:
-        print(pin, end=" ")
-    print("\n")
-
-    # Run test
-    result = run_test(pins)
-    print()
-    print(result[0])
-    print("Pins tested: " + str(result[1]))
-
-
-# Execute only if run as main.py or code.py
-if __name__ == "__main__":
-    _main()
