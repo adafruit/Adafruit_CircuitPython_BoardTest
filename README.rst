@@ -56,7 +56,7 @@ You will need the following components:
 
 Connect the components as shown to your board. Note that you can use a 220 Ohm or 330 Ohm resistor for the LED.
 
-.. image:: https://github.com/adafruit/Adafruit_CircuitPython_BoardTest/blob/master/docs/test_jig.png
+.. image:: https://github.com/adafruit/Adafruit_CircuitPython_BoardTest/blob/main/docs/test_jig.png
     :alt: Test jig Fritzing diagram
 
 To use each test, copy the individual .py or .mpy test(s) into a folder named adafruit_boardtest in the CIRCUITPY drive, import the library, find the pins available on your board, and call ``boardtest_<test name>.run_test(pins)``. To run the GPIO test, for example:
@@ -87,7 +87,7 @@ Contributing
 ============
 
 Contributions are welcome! Please read our `Code of Conduct
-<https://github.com/adafruit/Adafruit_CircuitPython_BoardTest/blob/master/CODE_OF_CONDUCT.md>`_
+<https://github.com/adafruit/Adafruit_CircuitPython_BoardTest/blob/main/CODE_OF_CONDUCT.md>`_
 before contributing to help this project stay welcoming.
 
 Documentation
