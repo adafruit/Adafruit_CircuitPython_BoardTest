@@ -228,7 +228,7 @@ for key in TEST_RESULTS:
         NUM_SPACES = len(key)
 
 # Print test results
-for key in TEST_RESULTS: # pylint: disable=consider-using-dict-items
+for key in TEST_RESULTS:  # pylint: disable=consider-using-dict-items
     print(key + ":", end=" ")
     for i in range(NUM_SPACES - len(key)):
         print(end=" ")
