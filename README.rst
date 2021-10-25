@@ -83,6 +83,11 @@ To use each test, copy the individual .py or .mpy test(s) into a folder named ad
     print("Pins tested: " + str(result[1]))
 
 
+Documentation
+=============
+
+API documentation for this library can be found on `Read the Docs <https://circuitpython.readthedocs.io/projects/boardtest/en/latest/>`_.
+
 Contributing
 ============
 
