@@ -63,6 +63,7 @@ def run_test(
     miso_pin=MISO_PIN_NAME,
     sck_pin=SCK_PIN_NAME,
     cs_pin=CS_PIN_NAME,
+    filename: str = FILENAME
 ):
 
     """
@@ -83,7 +84,7 @@ def run_test(
         # Tell user to connect SD card
         print("Insert SD card into holder and connect SPI lines to holder.")
         print("Connect " + cs_pin + " to the CS (DAT3) pin on the SD " + "card holder.")
-        print("WARNING: " + FILENAME + " will be created or overwritten.")
+        print("WARNING: " + filename + " will be created or overwritten.")
         print("Press enter to continue.")
         input()
 
@@ -115,7 +116,7 @@ def run_test(
 
         # Write test string to a text file on the card
         try:
-            with open("/sd/" + FILENAME, "w") as file:
+            with open("/sd/" + filename, "w") as file:
                 print("Writing:\t" + test_str)
                 file.write(test_str)
         except OSError:
@@ -125,7 +126,7 @@ def run_test(
         # Read from test file on the card
         read_str = ""
         try:
-            with open("/sd/" + FILENAME, "r") as file:
+            with open("/sd/" + filename, "r") as file:
                 lines = file.readlines()
                 for line in lines:
                     read_str += line
