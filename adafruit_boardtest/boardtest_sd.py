@@ -62,7 +62,7 @@ FAIL = "FAIL"
 NA = "N/A"
 
 
-def run_test(
+def run_test(  # pylint: disable=too-many-arguments,too-many-locals
     pins: Sequence[str],
     mosi_pin: str = MOSI_PIN_NAME,
     miso_pin: str = MISO_PIN_NAME,
