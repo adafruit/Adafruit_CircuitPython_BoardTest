@@ -54,6 +54,7 @@ def run_test(pins, tx_pin=TX_PIN_NAME, rx_pin=RX_PIN_NAME, baud_rate=BAUD_RATE):
     :param list[str] pins: list of pins to run the test on
     :param str tx_pin: pin name of UART TX
     :param str rx_pin: pin name of UART RX
+    :param int baudrate: the baudrate to use
     :return: tuple(str, list[str]): test result followed by list of pins tested
     """
 
