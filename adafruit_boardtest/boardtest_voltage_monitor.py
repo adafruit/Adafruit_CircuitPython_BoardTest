@@ -31,6 +31,11 @@ Implementation Notes
 import board
 import analogio
 
+try:
+    from typing import Sequence, Tuple, List
+except ImportError:
+    pass
+
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
 
@@ -45,7 +50,7 @@ FAIL = "FAIL"
 NA = "N/A"
 
 
-def run_test(pins):
+def run_test(pins: Sequence[str]) -> Tuple[str, List[str]]:
 
     """
     Prints out voltage on the battery monitor or voltage monitor pin.

@@ -29,6 +29,11 @@ import board
 import digitalio
 import supervisor
 
+try:
+    from typing import Any, Sequence, Tuple, List
+except ImportError:
+    pass
+
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
 
@@ -43,7 +48,7 @@ FAIL = "FAIL"
 NA = "N/A"
 
 # Determine if given value is a number
-def _is_number(val):
+def _is_number(val: Any) -> bool:
     try:
         float(val)
         return True
@@ -52,13 +57,13 @@ def _is_number(val):
 
 
 # Release pins
-def _deinit_pins(gpios):
+def _deinit_pins(gpios: Sequence[digitalio.DigitalInOut]) -> None:
     for g in gpios:
         g.deinit()
 
 
 # Toggle IO pins while waiting for answer
-def _toggle_wait(gpios):
+def _toggle_wait(gpios: Sequence[digitalio.DigitalInOut]) -> bool:
 
     timestamp = time.monotonic()
     led_state = False
@@ -79,7 +84,7 @@ def _toggle_wait(gpios):
             return bool(answer == "y")
 
 
-def run_test(pins):
+def run_test(pins: Sequence[str]) -> Tuple[str, List[str]]:
 
     """
     Toggles all available GPIO on and off repeatedly.

@@ -37,6 +37,11 @@ import digitalio
 import adafruit_sdcard
 import storage
 
+try:
+    from typing import Sequence, Tuple, List
+except ImportError:
+    pass
+
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
 
@@ -58,13 +63,13 @@ NA = "N/A"
 
 
 def run_test(
-    pins,
-    mosi_pin=MOSI_PIN_NAME,
-    miso_pin=MISO_PIN_NAME,
-    sck_pin=SCK_PIN_NAME,
-    cs_pin=CS_PIN_NAME,
+    pins: Sequence[str],
+    mosi_pin: str = MOSI_PIN_NAME,
+    miso_pin: str = MISO_PIN_NAME,
+    sck_pin: str = SCK_PIN_NAME,
+    cs_pin: str = CS_PIN_NAME,
     filename: str = FILENAME
-):
+) -> Tuple[str, List[str]]:
 
     """
     Performs random writes and reads to file on attached SD card.

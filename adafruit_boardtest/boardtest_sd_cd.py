@@ -29,6 +29,11 @@ Implementation Notes
 import board
 import digitalio
 
+try:
+    from typing import Sequence, Tuple, List
+except ImportError:
+    pass
+
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
 
@@ -41,7 +46,7 @@ FAIL = "FAIL"
 NA = "N/A"
 
 
-def run_test(pins, cd_pin=SD_CD_PIN_NAME):
+def run_test(pins: Sequence[str], cd_pin: str = SD_CD_PIN_NAME) -> Tuple[str, List[str]]:
 
     """
     Checks status of CD pin as user inserts and removes SD card.
