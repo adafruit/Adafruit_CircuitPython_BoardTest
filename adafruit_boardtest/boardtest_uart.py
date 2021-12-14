@@ -51,7 +51,12 @@ FAIL = "FAIL"
 NA = "N/A"
 
 
-def run_test(pins: Sequence[str], tx_pin: str = TX_PIN_NAME, rx_pin: str = RX_PIN_NAME, baud_rate: int = BAUD_RATE) -> Tuple[str, List[str]]:
+def run_test(
+    pins: Sequence[str],
+    tx_pin: str = TX_PIN_NAME,
+    rx_pin: str = RX_PIN_NAME,
+    baud_rate: int = BAUD_RATE,
+) -> Tuple[str, List[str]]:
 
     """
     Performs random writes out of TX pin and reads on RX.

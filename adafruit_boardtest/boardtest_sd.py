@@ -68,7 +68,7 @@ def run_test(
     miso_pin: str = MISO_PIN_NAME,
     sck_pin: str = SCK_PIN_NAME,
     cs_pin: str = CS_PIN_NAME,
-    filename: str = FILENAME
+    filename: str = FILENAME,
 ) -> Tuple[str, List[str]]:
 
     """
