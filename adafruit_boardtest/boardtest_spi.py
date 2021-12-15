@@ -36,6 +36,11 @@ import board
 import digitalio
 import busio
 
+try:
+    from typing import Tuple, Sequence, List
+except ImportError:
+    pass
+
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
 
@@ -64,7 +69,9 @@ FAIL = "FAIL"
 NA = "N/A"
 
 # Wait for WIP bit to go low
-def _eeprom_spi_wait(spi, csel, timeout=1.0):
+def _eeprom_spi_wait(
+    spi: busio.SPI, csel: digitalio.DigitalInOut, timeout: float = 1.0
+) -> bool:
 
     # Continually read from STATUS register
     timestamp = time.monotonic()
@@ -85,7 +92,13 @@ def _eeprom_spi_wait(spi, csel, timeout=1.0):
 
 
 # Write to address. Returns status (True for successful write, False otherwise)
-def _eeprom_spi_write_byte(spi, csel, address, data, timeout=1.0):
+def _eeprom_spi_write_byte(
+    spi: busio.SPI,
+    csel: digitalio.DigitalInOut,
+    address: int,
+    data: int,
+    timeout: float = 1.0,
+) -> bool:
 
     # Make sure address is only one byte:
     if address > 255:
@@ -113,7 +126,9 @@ def _eeprom_spi_write_byte(spi, csel, address, data, timeout=1.0):
 
 
 # Read from address. Returns tuple [status, result]
-def _eeprom_spi_read_byte(spi, csel, address, timeout=1.0):
+def _eeprom_spi_read_byte(
+    spi: busio.SPI, csel: digitalio.DigitalInOut, address: int, timeout: float = 1.0
+) -> Tuple[bool, bytearray]:
 
     # Make sure address is only one byte:
     if address > 255:
@@ -134,12 +149,12 @@ def _eeprom_spi_read_byte(spi, csel, address, timeout=1.0):
 
 
 def run_test(
-    pins,
-    mosi_pin=MOSI_PIN_NAME,
-    miso_pin=MISO_PIN_NAME,
-    sck_pin=SCK_PIN_NAME,
-    cs_pin=CS_PIN_NAME,
-):
+    pins: Sequence[str],
+    mosi_pin: str = MOSI_PIN_NAME,
+    miso_pin: str = MISO_PIN_NAME,
+    sck_pin: str = SCK_PIN_NAME,
+    cs_pin: str = CS_PIN_NAME,
+) -> Tuple[str, List[str]]:
 
     """
     Performs random writes and reads to file on attached SD card.

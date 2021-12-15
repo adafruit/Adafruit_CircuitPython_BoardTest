@@ -37,6 +37,11 @@ import digitalio
 import adafruit_sdcard
 import storage
 
+try:
+    from typing import Sequence, Tuple, List
+except ImportError:
+    pass
+
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
 
@@ -57,13 +62,14 @@ FAIL = "FAIL"
 NA = "N/A"
 
 
-def run_test(
-    pins,
-    mosi_pin=MOSI_PIN_NAME,
-    miso_pin=MISO_PIN_NAME,
-    sck_pin=SCK_PIN_NAME,
-    cs_pin=CS_PIN_NAME,
-):
+def run_test(  # pylint: disable=too-many-arguments,too-many-locals
+    pins: Sequence[str],
+    mosi_pin: str = MOSI_PIN_NAME,
+    miso_pin: str = MISO_PIN_NAME,
+    sck_pin: str = SCK_PIN_NAME,
+    cs_pin: str = CS_PIN_NAME,
+    filename: str = FILENAME,
+) -> Tuple[str, List[str]]:
 
     """
     Performs random writes and reads to file on attached SD card.
@@ -83,7 +89,7 @@ def run_test(
         # Tell user to connect SD card
         print("Insert SD card into holder and connect SPI lines to holder.")
         print("Connect " + cs_pin + " to the CS (DAT3) pin on the SD " + "card holder.")
-        print("WARNING: " + FILENAME + " will be created or overwritten.")
+        print("WARNING: " + filename + " will be created or overwritten.")
         print("Press enter to continue.")
         input()
 
@@ -115,7 +121,7 @@ def run_test(
 
         # Write test string to a text file on the card
         try:
-            with open("/sd/" + FILENAME, "w") as file:
+            with open("/sd/" + filename, "w") as file:
                 print("Writing:\t" + test_str)
                 file.write(test_str)
         except OSError:
@@ -125,7 +131,7 @@ def run_test(
         # Read from test file on the card
         read_str = ""
         try:
-            with open("/sd/" + FILENAME, "r") as file:
+            with open("/sd/" + filename, "r") as file:
                 lines = file.readlines()
                 for line in lines:
                     read_str += line

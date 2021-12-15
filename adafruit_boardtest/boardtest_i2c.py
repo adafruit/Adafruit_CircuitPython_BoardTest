@@ -33,6 +33,11 @@ import time
 import board
 import busio
 
+try:
+    from typing import Tuple, Sequence, List
+except ImportError:
+    pass
+
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
 
@@ -51,7 +56,9 @@ FAIL = "FAIL"
 NA = "N/A"
 
 # Open comms to I2C EEPROM by trying a write to memory address
-def _eeprom_i2c_wait(i2c, i2c_addr, mem_addr, timeout=1.0):
+def _eeprom_i2c_wait(
+    i2c: busio.I2C, i2c_addr: int, mem_addr: int, timeout: float = 1.0
+) -> bool:
 
     # Try to access the I2C EEPROM (it becomes unresonsive during a write)
     timestamp = time.monotonic()
@@ -66,7 +73,9 @@ def _eeprom_i2c_wait(i2c, i2c_addr, mem_addr, timeout=1.0):
 
 
 # Write to address. Returns status (True for successful write, False otherwise)
-def _eeprom_i2c_write_byte(i2c, i2c_addr, mem_addr, mem_data):
+def _eeprom_i2c_write_byte(
+    i2c: busio.I2C, i2c_addr: int, mem_addr: int, mem_data: int
+) -> bool:
 
     # Make sure address is only one byte:
     if mem_addr > 255:
@@ -86,7 +95,9 @@ def _eeprom_i2c_write_byte(i2c, i2c_addr, mem_addr, mem_data):
 
 
 # Read from address. Returns tuple [status, result]
-def _eeprom_i2c_read_byte(i2c, i2c_addr, mem_addr, timeout=1.0):
+def _eeprom_i2c_read_byte(
+    i2c: busio.I2C, i2c_addr: int, mem_addr: int, timeout: float = 1.0
+) -> Tuple[bool, bytearray]:
 
     # Make sure address is only one byte:
     if mem_addr > 255:
@@ -103,7 +114,9 @@ def _eeprom_i2c_read_byte(i2c, i2c_addr, mem_addr, timeout=1.0):
     return True, buf
 
 
-def run_test(pins, sda_pin=SDA_PIN_NAME, scl_pin=SCL_PIN_NAME):
+def run_test(
+    pins: Sequence[str], sda_pin: str = SDA_PIN_NAME, scl_pin: str = SCL_PIN_NAME
+) -> Tuple[str, List[str]]:
 
     """
     Performs random writes and reads to I2C EEPROM.

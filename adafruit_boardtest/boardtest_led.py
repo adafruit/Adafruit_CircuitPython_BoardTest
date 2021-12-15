@@ -28,6 +28,11 @@ import board
 import digitalio
 import supervisor
 
+try:
+    from typing import Sequence, Tuple, List
+except ImportError:
+    pass
+
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
 
@@ -42,7 +47,7 @@ FAIL = "FAIL"
 NA = "N/A"
 
 # Toggle IO pins while waiting for answer
-def _toggle_wait(led_pins):
+def _toggle_wait(led_pins: Sequence[str]) -> bool:
     timestamp = time.monotonic()
     led_state = False
     print("Are the pins listed above toggling? [y/n]")
@@ -77,7 +82,7 @@ def _toggle_wait(led_pins):
                     return False
 
 
-def run_test(pins):
+def run_test(pins: Sequence[str]) -> Tuple[str, List[str]]:
 
     """
     Toggles the onboard LED(s) on and off.

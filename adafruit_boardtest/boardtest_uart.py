@@ -29,6 +29,11 @@ import random
 import board
 import busio
 
+try:
+    from typing import Sequence, Tuple, List
+except ImportError:
+    pass
+
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BoardTest.git"
 
@@ -46,7 +51,12 @@ FAIL = "FAIL"
 NA = "N/A"
 
 
-def run_test(pins, tx_pin=TX_PIN_NAME, rx_pin=RX_PIN_NAME, baud_rate=BAUD_RATE):
+def run_test(
+    pins: Sequence[str],
+    tx_pin: str = TX_PIN_NAME,
+    rx_pin: str = RX_PIN_NAME,
+    baud_rate: int = BAUD_RATE,
+) -> Tuple[str, List[str]]:
 
     """
     Performs random writes out of TX pin and reads on RX.
@@ -54,6 +64,7 @@ def run_test(pins, tx_pin=TX_PIN_NAME, rx_pin=RX_PIN_NAME, baud_rate=BAUD_RATE):
     :param list[str] pins: list of pins to run the test on
     :param str tx_pin: pin name of UART TX
     :param str rx_pin: pin name of UART RX
+    :param int baudrate: the baudrate to use
     :return: tuple(str, list[str]): test result followed by list of pins tested
     """
 
