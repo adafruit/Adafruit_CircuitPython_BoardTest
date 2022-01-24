@@ -2,7 +2,7 @@ Introduction
 ============
 
 .. image:: https://readthedocs.org/projects/adafruit-circuitpython-boardtest/badge/?version=latest
-    :target: https://circuitpython.readthedocs.io/projects/boardtest/en/latest/
+    :target: https://docs.circuitpython.org/projects/boardtest/en/latest/
     :alt: Documentation Status
 
 .. image:: https://img.shields.io/discord/327254708534116352.svg
@@ -86,7 +86,7 @@ To use each test, copy the individual .py or .mpy test(s) into a folder named ad
 Documentation
 =============
 
-API documentation for this library can be found on `Read the Docs <https://circuitpython.readthedocs.io/projects/boardtest/en/latest/>`_.
+API documentation for this library can be found on `Read the Docs <https://docs.circuitpython.org/projects/boardtest/en/latest/>`_.
 
 Contributing
 ============
