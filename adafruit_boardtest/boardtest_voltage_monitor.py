@@ -74,7 +74,7 @@ def run_test(pins: Sequence[str]) -> Tuple[str, List[str]]:
         # Print out the voltage found on each pin
         for pin in monitor_pins:
             monitor = analogio.AnalogIn(getattr(board, pin))
-            voltage = (monitor.value * ANALOG_REF) / (2 ** ANALOGIN_BITS)
+            voltage = (monitor.value * ANALOG_REF) / (2**ANALOGIN_BITS)
             print(pin + ": {:.2f}".format(voltage) + " V")
             monitor.deinit()
         print()
