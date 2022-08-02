@@ -13,6 +13,10 @@ Introduction
     :target: https://github.com/adafruit/Adafruit_CircuitPython_BoardTest/actions/
     :alt: Build Status
 
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :target: https://github.com/psf/black
+    :alt: Code Style: Black
+
 Board test suite for CircuitPython. Run these tests to ensure that a CircuitPython port was created correctly, individual pin mappings are correct, and buses (e.g. SPI) work.
 
 Tests can be run individually. Copy code found in each *boardtest_<name>.py* module to your CIRCUITPYTHON device drive, and rename the file *code.py*.
