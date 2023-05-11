@@ -70,7 +70,6 @@ def run_test(  # pylint: disable=too-many-arguments,too-many-locals
     cs_pin: str = CS_PIN_NAME,
     filename: str = FILENAME,
 ) -> Tuple[str, List[str]]:
-
     """
     Performs random writes and reads to file on attached SD card.
 
@@ -85,7 +84,6 @@ def run_test(  # pylint: disable=too-many-arguments,too-many-locals
 
     # Write characters to file on SD card and verify they were written
     if list(set(pins).intersection(set([mosi_pin, miso_pin, sck_pin]))):
-
         # Tell user to connect SD card
         print("Insert SD card into holder and connect SPI lines to holder.")
         print("Connect " + cs_pin + " to the CS (DAT3) pin on the SD " + "card holder.")

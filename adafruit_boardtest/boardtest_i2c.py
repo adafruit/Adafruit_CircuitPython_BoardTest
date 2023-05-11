@@ -55,11 +55,11 @@ PASS = "PASS"
 FAIL = "FAIL"
 NA = "N/A"
 
+
 # Open comms to I2C EEPROM by trying a write to memory address
 def _eeprom_i2c_wait(
     i2c: busio.I2C, i2c_addr: int, mem_addr: int, timeout: float = 1.0
 ) -> bool:
-
     # Try to access the I2C EEPROM (it becomes unresonsive during a write)
     timestamp = time.monotonic()
     while time.monotonic() < timestamp + timeout:
@@ -76,7 +76,6 @@ def _eeprom_i2c_wait(
 def _eeprom_i2c_write_byte(
     i2c: busio.I2C, i2c_addr: int, mem_addr: int, mem_data: int
 ) -> bool:
-
     # Make sure address is only one byte:
     if mem_addr > 255:
         return False
@@ -98,7 +97,6 @@ def _eeprom_i2c_write_byte(
 def _eeprom_i2c_read_byte(
     i2c: busio.I2C, i2c_addr: int, mem_addr: int, timeout: float = 1.0
 ) -> Tuple[bool, bytearray]:
-
     # Make sure address is only one byte:
     if mem_addr > 255:
         return False, bytearray()
@@ -117,7 +115,6 @@ def _eeprom_i2c_read_byte(
 def run_test(
     pins: Sequence[str], sda_pin: str = SDA_PIN_NAME, scl_pin: str = SCL_PIN_NAME
 ) -> Tuple[str, List[str]]:
-
     """
     Performs random writes and reads to I2C EEPROM.
 
@@ -129,7 +126,6 @@ def run_test(
 
     # Write values to I2C EEPROM and verify the values match
     if list(set(pins).intersection(set([sda_pin, scl_pin]))):
-
         # Tell user to connect EEPROM chip
         print(
             "Connect a Microchip AT24HC04B EEPROM I2C chip. "
@@ -147,7 +143,6 @@ def run_test(
         # Pick a random address, write to it, read from it, and see if they match
         pass_test = True
         for _ in range(NUM_I2C_TESTS):
-
             # Randomly pick an address and a data value (one byte)
             mem_addr = random.randint(0, EEPROM_I2C_MAX_ADDR)
             mem_data = random.randint(0, 255)

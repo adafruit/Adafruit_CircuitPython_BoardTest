@@ -51,7 +51,6 @@ NA = "N/A"
 
 
 def run_test(pins: Sequence[str]) -> Tuple[str, List[str]]:
-
     """
     Prints out voltage on the battery monitor or voltage monitor pin.
 
@@ -64,7 +63,6 @@ def run_test(pins: Sequence[str]) -> Tuple[str, List[str]]:
 
     # Print out voltage found on these pins
     if monitor_pins:
-
         # Print out the monitor pins found
         print("Voltage monitor pins found:", end=" ")
         for pin in monitor_pins:

@@ -57,7 +57,6 @@ def run_test(
     rx_pin: str = RX_PIN_NAME,
     baud_rate: int = BAUD_RATE,
 ) -> Tuple[str, List[str]]:
-
     """
     Performs random writes out of TX pin and reads on RX.
 
@@ -70,7 +69,6 @@ def run_test(
 
     # Echo some values over the UART
     if list(set(pins).intersection(set([tx_pin, rx_pin]))):
-
         # Tell user to create loopback connection
         print("Connect a wire from TX to RX. Press enter to continue.")
         input()

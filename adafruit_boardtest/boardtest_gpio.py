@@ -47,6 +47,7 @@ PASS = "PASS"
 FAIL = "FAIL"
 NA = "N/A"
 
+
 # Determine if given value is a number
 def _is_number(val: Any) -> bool:
     try:
@@ -64,7 +65,6 @@ def _deinit_pins(gpios: Sequence[digitalio.DigitalInOut]) -> None:
 
 # Toggle IO pins while waiting for answer
 def _toggle_wait(gpios: Sequence[digitalio.DigitalInOut]) -> bool:
-
     timestamp = time.monotonic()
     led_state = False
     print("Are the pins listed above toggling? [y/n]")
@@ -85,7 +85,6 @@ def _toggle_wait(gpios: Sequence[digitalio.DigitalInOut]) -> bool:
 
 
 def run_test(pins: Sequence[str]) -> Tuple[str, List[str]]:
-
     """
     Toggles all available GPIO on and off repeatedly.
 
@@ -102,7 +101,6 @@ def run_test(pins: Sequence[str]) -> Tuple[str, List[str]]:
     # Toggle LEDs if we find any
     gpio_pins = analog_pins + digital_pins
     if gpio_pins:
-
         # Create a list of IO objects for us to toggle
         gpios = [digitalio.DigitalInOut(getattr(board, p)) for p in gpio_pins]
 

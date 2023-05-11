@@ -49,7 +49,6 @@ NA = "N/A"
 def run_test(
     pins: Sequence[str], cd_pin: str = SD_CD_PIN_NAME
 ) -> Tuple[str, List[str]]:
-
     """
     Checks status of CD pin as user inserts and removes SD card.
 
@@ -60,7 +59,6 @@ def run_test(
 
     # Ask user to insert and remove SD card
     if list(set(pins).intersection(set([cd_pin]))):
-
         # Configure CD pin as input with pullup
         cdt = digitalio.DigitalInOut(getattr(board, cd_pin))
         cdt.direction = digitalio.Direction.INPUT

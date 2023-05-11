@@ -46,13 +46,13 @@ PASS = "PASS"
 FAIL = "FAIL"
 NA = "N/A"
 
+
 # Toggle IO pins while waiting for answer
 def _toggle_wait(led_pins: Sequence[str]) -> bool:
     timestamp = time.monotonic()
     led_state = False
     print("Are the pins listed above toggling? [y/n]")
     while True:
-
         # Cycle through each pin in the list
         for pin in led_pins:
             led = digitalio.DigitalInOut(getattr(board, pin))
@@ -83,7 +83,6 @@ def _toggle_wait(led_pins: Sequence[str]) -> bool:
 
 
 def run_test(pins: Sequence[str]) -> Tuple[str, List[str]]:
-
     """
     Toggles the onboard LED(s) on and off.
 
@@ -96,7 +95,6 @@ def run_test(pins: Sequence[str]) -> Tuple[str, List[str]]:
 
     # Toggle LEDs if we find any
     if led_pins:
-
         # Print out the LEDs found
         print("LEDs found:", end=" ")
         for pin in led_pins:

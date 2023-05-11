@@ -68,15 +68,14 @@ PASS = "PASS"
 FAIL = "FAIL"
 NA = "N/A"
 
+
 # Wait for WIP bit to go low
 def _eeprom_spi_wait(
     spi: busio.SPI, csel: digitalio.DigitalInOut, timeout: float = 1.0
 ) -> bool:
-
     # Continually read from STATUS register
     timestamp = time.monotonic()
     while time.monotonic() < timestamp + timeout:
-
         # Perfrom RDSR operation
         csel.value = False
         result = bytearray(1)
@@ -99,7 +98,6 @@ def _eeprom_spi_write_byte(
     data: int,
     timeout: float = 1.0,
 ) -> bool:
-
     # Make sure address is only one byte:
     if address > 255:
         return False
@@ -129,7 +127,6 @@ def _eeprom_spi_write_byte(
 def _eeprom_spi_read_byte(
     spi: busio.SPI, csel: digitalio.DigitalInOut, address: int, timeout: float = 1.0
 ) -> Tuple[bool, bytearray]:
-
     # Make sure address is only one byte:
     if address > 255:
         return False, bytearray()
@@ -155,7 +152,6 @@ def run_test(
     sck_pin: str = SCK_PIN_NAME,
     cs_pin: str = CS_PIN_NAME,
 ) -> Tuple[str, List[str]]:
-
     """
     Performs random writes and reads to file on attached SD card.
 
@@ -169,7 +165,6 @@ def run_test(
 
     # Write values to SPI EEPROM and verify the values match
     if list(set(pins).intersection(set([mosi_pin, miso_pin, sck_pin]))):
-
         # Tell user to connect EEPROM chip
         print("Connect a Microchip 25AA040A EEPROM SPI chip.")
         print("Connect " + cs_pin + " to the CS pin on the 25AA040.")
@@ -196,7 +191,6 @@ def run_test(
         # Pick a random address, write to it, read from it, and see if they match
         pass_test = True
         for _ in range(NUM_SPI_TESTS):
-
             # Randomly pick an address and a data value (one byte)
             mem_addr = random.randint(0, EEPROM_SPI_MAX_ADDR)
             mem_data = random.randint(0, 255)
