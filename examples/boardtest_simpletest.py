@@ -69,12 +69,14 @@ the various tests.
 
 import board
 
-from adafruit_boardtest import boardtest_led
-from adafruit_boardtest import boardtest_gpio
-from adafruit_boardtest import boardtest_voltage_monitor
-from adafruit_boardtest import boardtest_uart
-from adafruit_boardtest import boardtest_spi
-from adafruit_boardtest import boardtest_i2c
+from adafruit_boardtest import (
+    boardtest_gpio,
+    boardtest_i2c,
+    boardtest_led,
+    boardtest_spi,
+    boardtest_uart,
+    boardtest_voltage_monitor,
+)
 
 # Constants
 UART_TX_PIN_NAME = "TX"
@@ -180,9 +182,7 @@ print()
 # Run UART test
 print("@)}---^-----  UART TEST  -----^---{(@")
 print()
-RESULT = boardtest_uart.run_test(
-    PINS, UART_TX_PIN_NAME, UART_RX_PIN_NAME, UART_BAUD_RATE
-)
+RESULT = boardtest_uart.run_test(PINS, UART_TX_PIN_NAME, UART_RX_PIN_NAME, UART_BAUD_RATE)
 TEST_RESULTS["UART Test"] = RESULT[0]
 PINS_TESTED.append(RESULT[1])
 print()
@@ -208,9 +208,7 @@ print()
 # Run I2C test
 print("@)}---^-----  I2C TEST  -----^---{(@")
 print()
-RESULT = boardtest_i2c.run_test(
-    PINS, sda_pin=I2C_SDA_PIN_NAME, scl_pin=I2C_SCL_PIN_NAME
-)
+RESULT = boardtest_i2c.run_test(PINS, sda_pin=I2C_SDA_PIN_NAME, scl_pin=I2C_SCL_PIN_NAME)
 TEST_RESULTS["I2C Test"] = RESULT[0]
 PINS_TESTED.append(RESULT[1])
 print()

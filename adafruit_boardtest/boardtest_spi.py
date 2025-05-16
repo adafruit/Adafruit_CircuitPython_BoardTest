@@ -33,11 +33,11 @@ import random
 import time
 
 import board
-import digitalio
 import busio
+import digitalio
 
 try:
-    from typing import Tuple, Sequence, List
+    from typing import List, Sequence, Tuple
 except ImportError:
     pass
 
@@ -70,9 +70,7 @@ NA = "N/A"
 
 
 # Wait for WIP bit to go low
-def _eeprom_spi_wait(
-    spi: busio.SPI, csel: digitalio.DigitalInOut, timeout: float = 1.0
-) -> bool:
+def _eeprom_spi_wait(spi: busio.SPI, csel: digitalio.DigitalInOut, timeout: float = 1.0) -> bool:
     # Continually read from STATUS register
     timestamp = time.monotonic()
     while time.monotonic() < timestamp + timeout:

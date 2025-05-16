@@ -22,6 +22,7 @@ Implementation Notes
   https://github.com/adafruit/circuitpython/releases
 
 """
+
 import time
 
 import board
@@ -29,7 +30,7 @@ import digitalio
 import supervisor
 
 try:
-    from typing import Sequence, Tuple, List
+    from typing import List, Sequence, Tuple
 except ImportError:
     pass
 
@@ -68,11 +69,10 @@ def _toggle_wait(led_pins: Sequence[str]) -> bool:
                         led.deinit()
                         blinking = False
                         timestamp = time.monotonic()
-                else:
-                    if time.monotonic() > timestamp + LED_OFF_DELAY_TIME:
-                        led_state = True
-                        led.value = led_state
-                        timestamp = time.monotonic()
+                elif time.monotonic() > timestamp + LED_OFF_DELAY_TIME:
+                    led_state = True
+                    led.value = led_state
+                    timestamp = time.monotonic()
 
                 # Look for user input
                 if supervisor.runtime.serial_bytes_available:

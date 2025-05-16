@@ -30,7 +30,7 @@ import digitalio
 import supervisor
 
 try:
-    from typing import Any, Sequence, Tuple, List
+    from typing import Any, List, Sequence, Tuple
 except ImportError:
     pass
 
@@ -73,10 +73,9 @@ def _toggle_wait(gpios: Sequence[digitalio.DigitalInOut]) -> bool:
             if time.monotonic() > timestamp + LED_ON_DELAY_TIME:
                 led_state = False
                 timestamp = time.monotonic()
-        else:
-            if time.monotonic() > timestamp + LED_OFF_DELAY_TIME:
-                led_state = True
-                timestamp = time.monotonic()
+        elif time.monotonic() > timestamp + LED_OFF_DELAY_TIME:
+            led_state = True
+            timestamp = time.monotonic()
         for gpio in gpios:
             gpio.value = led_state
         if supervisor.runtime.serial_bytes_available:

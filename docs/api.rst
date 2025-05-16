@@ -1,3 +1,6 @@
+API Reference
+#############
+
 .. automodule:: adafruit_boardtest.boardtest_gpio
    :members:
 

@@ -30,7 +30,7 @@ import board
 import busio
 
 try:
-    from typing import Sequence, Tuple, List
+    from typing import List, Sequence, Tuple
 except ImportError:
     pass
 
@@ -74,10 +74,8 @@ def run_test(
         input()
 
         # Initialize UART
-        uart = busio.UART(
-            getattr(board, tx_pin), getattr(board, rx_pin), baudrate=baud_rate
-        )
-        uart.reset_input_buffer()  # pylint: disable=no-member
+        uart = busio.UART(getattr(board, tx_pin), getattr(board, rx_pin), baudrate=baud_rate)
+        uart.reset_input_buffer()
 
         # Generate test string
         test_str = ""

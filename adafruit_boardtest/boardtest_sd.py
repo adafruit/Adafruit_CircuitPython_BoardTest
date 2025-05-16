@@ -29,16 +29,17 @@ Implementation Notes
   https://github.com/adafruit/Adafruit_CircuitPython_SD
 
 """
+
 import random
 
+import adafruit_sdcard
 import board
 import busio
 import digitalio
-import adafruit_sdcard
 import storage
 
 try:
-    from typing import Sequence, Tuple, List
+    from typing import List, Sequence, Tuple
 except ImportError:
     pass
 
@@ -62,7 +63,7 @@ FAIL = "FAIL"
 NA = "N/A"
 
 
-def run_test(  # pylint: disable=too-many-arguments,too-many-locals
+def run_test(
     pins: Sequence[str],
     mosi_pin: str = MOSI_PIN_NAME,
     miso_pin: str = MISO_PIN_NAME,
@@ -129,7 +130,7 @@ def run_test(  # pylint: disable=too-many-arguments,too-many-locals
         # Read from test file on the card
         read_str = ""
         try:
-            with open("/sd/" + filename, "r") as file:
+            with open("/sd/" + filename) as file:
                 lines = file.readlines()
                 for line in lines:
                     read_str += line
