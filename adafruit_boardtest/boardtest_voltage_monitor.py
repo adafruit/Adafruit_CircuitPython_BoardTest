@@ -28,11 +28,11 @@ Implementation Notes
 
 """
 
-import board
 import analogio
+import board
 
 try:
-    from typing import Sequence, Tuple, List
+    from typing import List, Sequence, Tuple
 except ImportError:
     pass
 
@@ -73,16 +73,13 @@ def run_test(pins: Sequence[str]) -> Tuple[str, List[str]]:
         for pin in monitor_pins:
             monitor = analogio.AnalogIn(getattr(board, pin))
             voltage = (monitor.value * ANALOG_REF) / (2**ANALOGIN_BITS)
-            print(pin + ": {:.2f}".format(voltage) + " V")
+            print(pin + f": {voltage:.2f}" + " V")
             monitor.deinit()
         print()
 
         # Ask the user to check these voltages
         print("Use a multimeter to verify these voltages.")
-        print(
-            "Note that some battery monitor pins might have onboard "
-            + "voltage dividers."
-        )
+        print("Note that some battery monitor pins might have onboard " + "voltage dividers.")
         print("Do the values look reasonable? [y/n]")
         if input() == "y":
             return PASS, monitor_pins

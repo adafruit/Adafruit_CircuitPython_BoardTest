@@ -30,7 +30,7 @@ import board
 import digitalio
 
 try:
-    from typing import Sequence, Tuple, List
+    from typing import List, Sequence, Tuple
 except ImportError:
     pass
 
@@ -46,9 +46,7 @@ FAIL = "FAIL"
 NA = "N/A"
 
 
-def run_test(
-    pins: Sequence[str], cd_pin: str = SD_CD_PIN_NAME
-) -> Tuple[str, List[str]]:
+def run_test(pins: Sequence[str], cd_pin: str = SD_CD_PIN_NAME) -> Tuple[str, List[str]]:
     """
     Checks status of CD pin as user inserts and removes SD card.
 

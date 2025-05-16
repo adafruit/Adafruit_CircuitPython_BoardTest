@@ -34,7 +34,7 @@ import board
 import busio
 
 try:
-    from typing import Tuple, Sequence, List
+    from typing import List, Sequence, Tuple
 except ImportError:
     pass
 
@@ -57,9 +57,7 @@ NA = "N/A"
 
 
 # Open comms to I2C EEPROM by trying a write to memory address
-def _eeprom_i2c_wait(
-    i2c: busio.I2C, i2c_addr: int, mem_addr: int, timeout: float = 1.0
-) -> bool:
+def _eeprom_i2c_wait(i2c: busio.I2C, i2c_addr: int, mem_addr: int, timeout: float = 1.0) -> bool:
     # Try to access the I2C EEPROM (it becomes unresonsive during a write)
     timestamp = time.monotonic()
     while time.monotonic() < timestamp + timeout:
@@ -73,9 +71,7 @@ def _eeprom_i2c_wait(
 
 
 # Write to address. Returns status (True for successful write, False otherwise)
-def _eeprom_i2c_write_byte(
-    i2c: busio.I2C, i2c_addr: int, mem_addr: int, mem_data: int
-) -> bool:
+def _eeprom_i2c_write_byte(i2c: busio.I2C, i2c_addr: int, mem_addr: int, mem_data: int) -> bool:
     # Make sure address is only one byte:
     if mem_addr > 255:
         return False
@@ -127,10 +123,7 @@ def run_test(
     # Write values to I2C EEPROM and verify the values match
     if list(set(pins).intersection(set([sda_pin, scl_pin]))):
         # Tell user to connect EEPROM chip
-        print(
-            "Connect a Microchip AT24HC04B EEPROM I2C chip. "
-            + "Press enter to continue."
-        )
+        print("Connect a Microchip AT24HC04B EEPROM I2C chip. " + "Press enter to continue.")
         input()
 
         # Set up I2C
