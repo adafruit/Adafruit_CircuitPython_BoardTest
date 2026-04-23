@@ -222,8 +222,7 @@ print()
 # Find appropriate spaces for printing test results
 NUM_SPACES = 0
 for key in TEST_RESULTS:
-    if len(key) > NUM_SPACES:
-        NUM_SPACES = len(key)
+    NUM_SPACES = max(NUM_SPACES, len(key))
 
 # Print test results
 for key, val in TEST_RESULTS.items():
